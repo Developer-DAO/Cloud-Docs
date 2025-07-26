@@ -1,0 +1,433 @@
+/* D_D Cloud RPC Documentation Custom Styles */
+
+:root {
+  --dd-primary: #6366f1;
+  --dd-primary-dark: #4f46e5;
+  --dd-secondary: #10b981;
+  --dd-accent: #f59e0b;
+  --dd-background: #0f172a;
+  --dd-surface: #1e293b;
+  --dd-text: #f8fafc;
+  --dd-text-muted: #94a3b8;
+  --dd-border: #334155;
+  --dd-code-bg: #1e293b;
+  --dd-success: #10b981;
+  --dd-warning: #f59e0b;
+  --dd-error: #ef4444;
+}
+
+/* Dark theme overrides */
+.navy {
+  --bg: var(--dd-background);
+  --fg: var(--dd-text);
+  --sidebar-bg: var(--dd-surface);
+  --sidebar-fg: var(--dd-text);
+  --sidebar-non-existant: var(--dd-text-muted);
+  --sidebar-active: var(--dd-primary);
+  --sidebar-spacer: var(--dd-border);
+  --scrollbar: var(--dd-border);
+  --icons: var(--dd-text-muted);
+  --icons-hover: var(--dd-text);
+  --links: var(--dd-primary);
+  --inline-code-color: var(--dd-accent);
+  --theme-popup-bg: var(--dd-surface);
+  --theme-popup-border: var(--dd-border);
+  --theme-hover: var(--dd-border);
+  --quote-bg: var(--dd-surface);
+  --quote-border: var(--dd-primary);
+  --table-border-color: var(--dd-border);
+  --table-header-bg: var(--dd-surface);
+  --table-alternate-bg: rgba(30, 41, 59, 0.5);
+  --searchbar-border-color: var(--dd-border);
+  --searchbar-bg: var(--dd-surface);
+  --searchbar-fg: var(--dd-text);
+  --search-mark-bg: var(--dd-accent);
+}
+
+/* Custom header styling */
+.chapter-title {
+  color: var(--dd-primary);
+  border-bottom: 2px solid var(--dd-primary);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Code blocks */
+pre {
+  background: var(--dd-code-bg) !important;
+  border: 1px solid var(--dd-border);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+code {
+  background: var(--dd-code-bg);
+  color: var(--dd-accent);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+pre code {
+  background: transparent;
+  color: var(--dd-text);
+  padding: 0;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--dd-border);
+}
+
+th {
+  background: var(--dd-surface);
+  color: var(--dd-text);
+  font-weight: 600;
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 2px solid var(--dd-primary);
+}
+
+td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--dd-border);
+}
+
+tr:nth-child(even) {
+  background: var(--table-alternate-bg);
+}
+
+tr:hover {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+/* Status badges */
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-active {
+  background: rgba(16, 185, 129, 0.2);
+  color: var(--dd-success);
+  border: 1px solid var(--dd-success);
+}
+
+.status-coming-soon {
+  background: rgba(245, 158, 11, 0.2);
+  color: var(--dd-warning);
+  border: 1px solid var(--dd-warning);
+}
+
+.status-deprecated {
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--dd-error);
+  border: 1px solid var(--dd-error);
+}
+
+/* Network cards */
+.network-card {
+  background: var(--dd-surface);
+  border: 1px solid var(--dd-border);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  transition: all 0.2s ease;
+}
+
+.network-card:hover {
+  border-color: var(--dd-primary);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+}
+
+.network-card h3 {
+  color: var(--dd-primary);
+  margin-top: 0;
+}
+
+.network-card .endpoint {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  background: var(--dd-code-bg);
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+  margin: 0.5rem 0;
+}
+
+/* Method documentation */
+.method-signature {
+  background: var(--dd-surface);
+  border-left: 4px solid var(--dd-primary);
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.method-signature h4 {
+  margin-top: 0;
+  color: var(--dd-primary);
+}
+
+.parameter-list {
+  list-style: none;
+  padding: 0;
+}
+
+.parameter-list li {
+  background: var(--dd-surface);
+  margin: 0.5rem 0;
+  padding: 0.75rem;
+  border-radius: 4px;
+  border-left: 3px solid var(--dd-secondary);
+}
+
+.parameter-name {
+  font-weight: 600;
+  color: var(--dd-secondary);
+}
+
+.parameter-type {
+  color: var(--dd-accent);
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.9em;
+}
+
+.parameter-required {
+  color: var(--dd-error);
+  font-size: 0.8em;
+  font-weight: 600;
+}
+
+/* Alerts and callouts */
+.alert {
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  border-left: 4px solid;
+}
+
+.alert-info {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: var(--dd-primary);
+  color: var(--dd-text);
+}
+
+.alert-warning {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: var(--dd-warning);
+  color: var(--dd-text);
+}
+
+.alert-success {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: var(--dd-success);
+  color: var(--dd-text);
+}
+
+.alert-error {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: var(--dd-error);
+  color: var(--dd-text);
+}
+
+/* Blockquotes */
+blockquote {
+  border-left: 4px solid var(--dd-primary);
+  background: var(--dd-surface);
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 0 8px 8px 0;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+/* Links */
+a {
+  color: var(--dd-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--dd-primary-dark);
+  text-decoration: underline;
+}
+
+/* Sidebar customization */
+.sidebar .chapter-item {
+  transition: background-color 0.2s ease;
+}
+
+.sidebar .chapter-item:hover {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.sidebar .chapter-item.expanded {
+  background: rgba(99, 102, 241, 0.05);
+}
+
+/* Search customization */
+#searchresults {
+  background: var(--dd-surface);
+  border: 1px solid var(--dd-border);
+  border-radius: 8px;
+}
+
+#searchresults .searchresult {
+  border-bottom: 1px solid var(--dd-border);
+  padding: 1rem;
+}
+
+#searchresults .searchresult:last-child {
+  border-bottom: none;
+}
+
+#searchresults .searchresult h3 {
+  color: var(--dd-primary);
+  margin-top: 0;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .network-card {
+    margin: 0.25rem 0;
+    padding: 0.75rem;
+  }
+  
+  .method-signature {
+    padding: 0.75rem;
+  }
+  
+  table {
+    font-size: 0.9em;
+  }
+  
+  th, td {
+    padding: 0.5rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .sidebar,
+  .nav-chapters,
+  .mobile-nav-chapters {
+    display: none !important;
+  }
+  
+  .content {
+    margin-left: 0 !important;
+    max-width: none !important;
+  }
+  
+  pre {
+    background: #f8f9fa !important;
+    color: #333 !important;
+    border: 1px solid #ddd !important;
+  }
+  
+  code {
+    background: #f8f9fa !important;
+    color: #333 !important;
+  }
+}
+
+/* Syntax highlighting adjustments */
+.hljs {
+  background: var(--dd-code-bg) !important;
+  color: var(--dd-text) !important;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in {
+  color: #c792ea !important;
+}
+
+.hljs-string,
+.hljs-attr {
+  color: #c3e88d !important;
+}
+
+.hljs-number,
+.hljs-literal {
+  color: #f78c6c !important;
+}
+
+.hljs-comment {
+  color: var(--dd-text-muted) !important;
+  font-style: italic;
+}
+
+.hljs-function,
+.hljs-title {
+  color: #82aaff !important;
+}
+
+.hljs-variable,
+.hljs-name {
+  color: #ffcb6b !important;
+}
+
+/* Custom utility classes */
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: var(--dd-text-muted);
+}
+
+.font-mono {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+/* Loading states */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid var(--dd-border);
+  border-top-color: var(--dd-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

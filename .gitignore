@@ -1,0 +1,24 @@
+# mdBook build output
+book/
+# Node modules (if using custom JS/CSS tooling)
+node_modules/
+# Dependency/package lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+# Editor/OS files
+*.swp
+*.swo
+*.bak
+*.tmp
+.DS_Store
+Thumbs.db
+# Logs
+*.log
+# Python virtual environments (if used for scripts)
+venv/
+.env
+# Miscellaneous
+.idea/
+.vscode/
+# Ignore
