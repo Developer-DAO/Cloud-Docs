@@ -9,12 +9,13 @@ description = "Comprehensive documentation for D_D Cloud's multi-chain RPC servi
 [preprocessor.links]
 
 [output.html]
-additional-css = ["theme/custom.css"]
-additional-js = ["theme/custom.js"]
+additional-css = ["theme/custom.css", "theme/page-layout.css"]
+additional-js = ["theme/custom.js", "theme/page-layout.js"]
 default-theme = "navy"
 preferred-dark-theme = "navy"
 git-repository-url = "https://github.com/your-org/rpc-docs"
 edit-url-template = "https://github.com/your-org/rpc-docs/edit/main/{path}"
+no-section-label = true
 
 [output.html.search]
 enable = true

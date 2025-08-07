@@ -14,6 +14,7 @@
         addInteractiveExamples();
         addSearchEnhancements();
         addNavigationEnhancements();
+        addTableOfContents();
     }
 
     // Add copy buttons to code blocks
@@ -595,12 +596,295 @@
         element.classList.remove('loading');
     }
 
+    // Add automatic table of contents generation
+    function addTableOfContents() {
+        // Skip if page already has a TOC
+        if (document.querySelector('.content-toc')) return;
+
+        const content = document.querySelector('.content');
+        if (!content) return;
+
+        // Find all headings
+        const headings = content.querySelectorAll('h1, h2, h3, h4');
+        if (headings.length < 2) return; // Don't add TOC for pages with few headings
+
+        // Create page layout wrapper
+        const pageLayout = document.createElement('div');
+        pageLayout.className = 'page-layout';
+
+        // Create main content wrapper
+        const contentMain = document.createElement('div');
+        contentMain.className = 'content-main';
+
+        // Move existing content to main wrapper
+        while (content.firstChild) {
+            contentMain.appendChild(content.firstChild);
+        }
+
+        // Create TOC
+        const tocContainer = document.createElement('div');
+        tocContainer.className = 'content-toc';
+
+        const tocHeader = document.createElement('div');
+        tocHeader.className = 'toc-header';
+        tocHeader.textContent = 'On this page';
+
+        const tocNav = document.createElement('nav');
+        tocNav.className = 'toc-nav';
+
+        const tocList = document.createElement('ul');
+
+        // Generate TOC items
+        let currentLevel = 1;
+        let currentList = tocList;
+        const listStack = [tocList];
+
+        headings.forEach((heading, index) => {
+            const level = parseInt(heading.tagName.charAt(1));
+            const text = heading.textContent.trim();
+
+            // Create anchor ID if it doesn't exist
+            if (!heading.id) {
+                heading.id = text.toLowerCase()
+                    .replace(/[^\w\s-]/g, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/-+/g, '-')
+                    .replace(/^-|-$/g, '');
+            }
+
+            // Handle nesting
+            if (level > currentLevel) {
+                // Going deeper
+                const nestedList = document.createElement('ul');
+                const lastItem = currentList.lastElementChild;
+                if (lastItem) {
+                    lastItem.appendChild(nestedList);
+                }
+                listStack.push(nestedList);
+                currentList = nestedList;
+            } else if (level < currentLevel) {
+                // Going back up
+                while (listStack.length > level && listStack.length > 1) {
+                    listStack.pop();
+                }
+                currentList = listStack[listStack.length - 1];
+            }
+
+            currentLevel = level;
+
+            // Create list item
+            const listItem = document.createElement('li');
+            const link = document.createElement('a');
+            link.href = '#' + heading.id;
+            link.textContent = text;
+            link.tabIndex = 0;
+
+            listItem.appendChild(link);
+            currentList.appendChild(listItem);
+        });
+
+        // Assemble TOC
+        tocNav.appendChild(tocList);
+        tocContainer.appendChild(tocHeader);
+        tocContainer.appendChild(tocNav);
+
+        // Assemble page layout
+        pageLayout.appendChild(contentMain);
+        pageLayout.appendChild(tocContainer);
+        content.appendChild(pageLayout);
+
+        // Add TOC functionality
+        addTocFunctionality(tocContainer);
+    }
+
+    function addTocFunctionality(tocContainer) {
+        const tocLinks = tocContainer.querySelectorAll('.toc-nav a');
+        const sections = document.querySelectorAll('[id]');
+
+        // Function to update active link
+        function updateActiveLink() {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.scrollY >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Update on scroll
+        window.addEventListener('scroll', updateActiveLink);
+
+        // Update on click and maintain focus
+        tocLinks.forEach(link => {
+            link.addEventListener('click', function (e) {
+                // Remove active from all links
+                tocLinks.forEach(l => l.classList.remove('active'));
+                // Add active to clicked link
+                this.classList.add('active');
+                // Keep focus on the link
+                this.focus();
+                // Prevent losing focus
+                setTimeout(() => this.focus(), 100);
+            });
+
+            // Maintain focus when using keyboard navigation
+            link.addEventListener('focus', function () {
+                tocLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Initial update
+        updateActiveLink();
+    }
+
     // Expose utilities globally
     window.DDCloudDocs = {
         copyToClipboard: copyToClipboard,
         showLoading: showLoading,
         hideLoading: hideLoading,
-        checkNetworkStatus: checkNetworkStatus
+        checkNetworkStatus: checkNetworkStatus,
+        addTableOfContents: addTableOfContents
     };
 
 })();
+// Table of Contents functionality for page layout
+function initializeTableOfContents() {
+    const tocLinks = document.querySelectorAll('.toc-nav a');
+    const sections = document.querySelectorAll('[id]');
+
+    if (tocLinks.length === 0 || sections.length === 0) {
+        return; // No TOC on this page
+    }
+
+    // Function to update active link
+    function updateActiveLink() {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (window.scrollY >= sectionTop - 100) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        tocLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + current) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    // Update on scroll
+    window.addEventListener('scroll', updateActiveLink);
+
+    // Update on click and maintain focus
+    tocLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            // Remove active from all links
+            tocLinks.forEach(l => l.classList.remove('active'));
+            // Add active to clicked link
+            this.classList.add('active');
+            // Keep focus on the link
+            this.focus();
+            // Prevent losing focus
+            setTimeout(() => this.focus(), 100);
+        });
+
+        // Maintain focus when using keyboard navigation
+        link.addEventListener('focus', function () {
+            tocLinks.forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // Initial update
+    updateActiveLink();
+}
+
+// Auto-generate TOC for pages that don't have one
+function autoGenerateTableOfContents() {
+    // Only generate if page has the page-layout class but no existing TOC
+    const pageLayout = document.querySelector('.page-layout');
+    const existingToc = document.querySelector('.content-toc');
+
+    if (!pageLayout || existingToc) {
+        return; // No page layout or TOC already exists
+    }
+
+    const contentMain = document.querySelector('.content-main');
+    if (!contentMain) return;
+
+    // Find all headings with IDs
+    const headings = contentMain.querySelectorAll('h1[id], h2[id], h3[id], h4[id]');
+
+    if (headings.length === 0) return;
+
+    // Create TOC structure
+    const tocDiv = document.createElement('div');
+    tocDiv.className = 'content-toc';
+
+    const tocHeader = document.createElement('div');
+    tocHeader.className = 'toc-header';
+    tocHeader.textContent = 'On this page';
+
+    const tocNav = document.createElement('nav');
+    tocNav.className = 'toc-nav';
+
+    const tocList = document.createElement('ul');
+
+    let currentLevel = 1;
+    let currentList = tocList;
+    const listStack = [tocList];
+
+    headings.forEach(heading => {
+        const level = parseInt(heading.tagName.charAt(1));
+        const id = heading.getAttribute('id');
+        const text = heading.textContent;
+
+        // Adjust nesting based on heading level
+        if (level > currentLevel) {
+            // Create nested list
+            const nestedList = document.createElement('ul');
+            const lastItem = currentList.lastElementChild;
+            if (lastItem) {
+                lastItem.appendChild(nestedList);
+            }
+            listStack.push(nestedList);
+            currentList = nestedList;
+        } else if (level < currentLevel) {
+            // Go back to parent list
+            for (let i = currentLevel; i > level; i--) {
+                listStack.pop();
+            }
+            currentList = listStack[listStack.length - 1];
+        }
+
+        currentLevel = level;
+
+        // Create list item
+        const listItem = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = '#' + id;
+        link.textContent = text;
+        link.setAttribute('tabindex', '0');
+
+        listItem.appendChild(link);
+        currentList.appendChild(listItem);
+    });
+
+    tocNav.appendChild(tocList);
+    tocDiv.appendChild(tocHeader);
+    tocDiv.appendChild(tocNav);
+
+    // Insert TOC after the page layout
+    pageLayout.appendChild(tocDiv);
+}

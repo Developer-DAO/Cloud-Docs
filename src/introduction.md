@@ -1,114 +1,102 @@
-# D_D Cloud RPC Documentation
+<div class="page-layout">
+<div class="content-main">
 
-Welcome to the comprehensive documentation for D_D Cloud's multi-chain RPC service. Our infrastructure provides reliable, high-performance access to over 60 blockchain networks through standardized JSON-RPC interfaces.
+# D_D Cloud
 
-## What is D_D Cloud RPC?
+D_D Cloud is the first RPC provider owned by a Community (Developer DAO). D_D Cloud provides enterprise-grade blockchain infrastructure services that power the next generation of decentralized applications. 
 
-D_D Cloud RPC is a managed blockchain infrastructure service that provides:
+D_D Cloud is a comprehensive blockchain infrastructure platform that offers reliable, scalable, and secure access to 60+ blockchain networks through industry-standard APIs. Our services enable developers to build, deploy, and scale Web3 applications without the complexity of managing blockchain infrastructure. Tap into our high-performance infrastructure to land transactions quicker.
 
-- **Multi-chain Support**: Access to 60+ blockchain networks including Ethereum, Solana, NEAR, Sui, and many more
-- **High Availability**: Enterprise-grade uptime with automatic failover and load balancing
-- **Scalable Infrastructure**: From development to production, our service scales with your needs
-- **WebSocket Support**: Real-time blockchain data streaming (coming soon)
-- **Developer-Friendly**: Simple authentication, comprehensive documentation, and extensive code examples
 
-## Supported Networks
+**Features:**
 
-Our service supports a wide range of blockchain networks:
+- Sub-100ms global response times
+- 99.9% uptime SLA
+- Automatic failover and load balancing
+- Enterprise-grade security
 
-### EVM Compatible Chains
+### Archive Nodes {#archive-nodes}
 
-- **Ethereum** and testnets (Sepolia, Holesky)
-- **Layer 2 Solutions**: Arbitrum, Optimism, Base, Polygon, zkSync Era
-- **Alternative L1s**: BSC, Avalanche, Fantom, Celo, Harmony
-- **Emerging Networks**: Blast, Linea, Scroll, Taiko, Mantle
+Access complete blockchain history for advanced analytics, compliance, and historical queries.
 
-### Non-EVM Chains
+**Features:**
 
-- **Solana**: High-performance blockchain with sub-second finality
-- **NEAR Protocol**: Sharded, developer-friendly blockchain
-- **Sui**: Move-based blockchain with parallel execution
-- **Cosmos Ecosystem**: Osmosis, Evmos, Kaia, Kava, Sei
-- **Others**: Tron, Radix, IoTeX, Pocket Network
+- Full historical data access
+- State queries at any block height
+- Compliance and audit support
+- High-performance indexing
 
-## Key Features
-
-### 🚀 **High Performance**
-
-- Sub-100ms response times globally
-- Automatic request routing to nearest data centers
-- Intelligent caching for frequently accessed data
-
-### 🔒 **Enterprise Security**
-
-- API key authentication
-- Rate limiting and DDoS protection
-- SOC 2 compliant infrastructure
-
-### 📊 **Comprehensive Analytics**
-
-- Real-time usage monitoring
-- Detailed request analytics
-- Performance metrics and alerts
-
-### 🛠 **Developer Experience**
-
-- RESTful JSON-RPC APIs
-- Extensive code examples in multiple languages
-- Interactive API explorer
-- Comprehensive error handling
-
-## Getting Started
-
-Ready to start building? Here's what you need to do:
-
-1. **[Sign up](./getting-started/quick-start.md)** for a D_D Cloud account
-2. **[Generate API keys](./getting-started/authentication.md)** for your projects
-3. **[Choose your network](./networks/overview.md)** from our supported chains
-4. **[Make your first request](./getting-started/quick-start.md#making-your-first-request)** using our RPC endpoints
-
-## Quick Example
-
-Here's a simple example of fetching the latest Ethereum block:
-
-```bash
-curl -X POST \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}' \
-  https://rpc.ddcloud.io/eth
-```
-
-```javascript
-// Using ethers.js
-import { JsonRpcProvider } from "ethers";
-
-const provider = new JsonRpcProvider("https://rpc.ddcloud.io/eth", {
-  headers: {
-    Authorization: "Bearer YOUR_API_KEY",
-  },
-});
-
-const blockNumber = await provider.getBlockNumber();
-console.log("Latest block:", blockNumber);
-```
-
-## What's Next?
-
-- **New to blockchain development?** Start with our [Quick Start Guide](./getting-started/quick-start.md)
-- **Migrating from another provider?** Check our [Migration Guides](./troubleshooting/migration.md)
-- **Need specific network info?** Browse our [Network Documentation](./networks/overview.md)
-- **Looking for code examples?** Explore our [Code Examples](./examples/javascript/README.md)
-
-## Support
-
-Need help? We're here for you:
-
-- 📧 **Email**: support@ddcloud.io
-- 💬 **Discord**: [Join our community](https://discord.gg/ddcloud)
-- 📖 **Documentation**: You're reading it!
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/ddcloud/rpc-docs/issues)
-
+### Checkout the availaible RPC API
+<div class="blockchain" id="#rpc-api">
+<div class="blockchain-grid">
+  <a href="./networks/ethereum.md" class="blockchain-card">
+    <img src="./images/ethereum-eth-logo.png" alt="Ethereum" class="blockchain-logo">
+    <span class="blockchain-name">Ethereum</span>
+  </a>
+  
+  <a href="./networks/bitcoin.md" class="blockchain-card">
+    <img src="./images/bitcoin-btc-logo.png" alt="Bitcoin" class="blockchain-logo">
+    <span class="blockchain-name">Bitcoin</span>
+  </a>
+  
+  <a href="./networks/solana.md" class="blockchain-card">
+    <img src="./images/solana-sol-logo.png" alt="Solana" class="blockchain-logo">
+    <span class="blockchain-name">Solana</span>
+  </a>
+  
+  <a href="./networks/avalanche.md" class="blockchain-card">
+    <img src="./images/avalanche-avax-logo.png" alt="Avalanche" class="blockchain-logo">
+    <span class="blockchain-name">Avalanche</span>
+  </a>
+  
+  <a href="./networks/bnb.md" class="blockchain-card">
+    <img src="./images/bnb-bnb-logo.png" alt="BNB Chain" class="blockchain-logo">
+    <span class="blockchain-name">BNB Chain</span>
+  </a>
+  
+  <a href="./networks/near.md" class="blockchain-card">
+    <img src="./images/near-protocol-near-logo.png" alt="NEAR Protocol" class="blockchain-logo">
+    <span class="blockchain-name">NEAR Protocol</span>
+  </a>
+  
+  <a href="./networks/tron.md" class="blockchain-card">
+    <img src="./images/tron-trx-logo.png" alt="Tron" class="blockchain-logo">
+    <span class="blockchain-name">Tron</span>
+  </a>
+  
+  <a href="./networks/aptos.md" class="blockchain-card">
+    <img src="./images/aptos-apt-logo.png" alt="Aptos" class="blockchain-logo">
+    <span class="blockchain-name">Aptos</span>
+  </a>
+  
+  <a href="./networks/arweave.md" class="blockchain-card">
+    <img src="./images/arweave-ar-logo.png" alt="Arweave" class="blockchain-logo">
+    <span class="blockchain-name">Arweave</span>
+  </a>
+  
+  <a href="./networks/chainlink.md" class="blockchain-card">
+    <img src="./images/chainlink-link-logo.png" alt="Chainlink" class="blockchain-logo">
+    <span class="blockchain-name">Chainlink</span>
+  </a>
+</div>
+</div>
 ---
 
-_Last updated: {{ date }}_
+Ready to build the future of Web3? [Get started with D_D Cloud →](https://dashboard.ddcloud.io/signup)
+
+</div>
+
+<div class="content-toc">
+<div class="toc-header">On this page</div>
+<nav class="toc-nav">
+<ul>
+
+  <ul>
+   <li><a href="#d_d-cloud" tabindex="0">DD Cloud</a></li>
+    <li><a href="#checkout-the-availaible-rpc-api" tabindex="0">RPC API</a></li>
+  </ul>
+</ul>
+</nav>
+</div>
+
+</div>
