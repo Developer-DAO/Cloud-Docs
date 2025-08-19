@@ -323,12 +323,13 @@ main {
   word-wrap: break-word !important;
 }
 
-.content > *,
-#content > *,
-main > * {
-  max-width: 100% !important;
-  box-sizing: border-box !important;
-  word-wrap: break-word !important;
+
+
+/* Preserve layout for content-main and content-toc */
+.content-main,
+.content-toc {
+  max-width: none !important;
+  width: auto !important; 
 }
 
 /* Specific fixes for elements that tend to overflow */
@@ -346,214 +347,11 @@ pre,
   overflow-x: auto !important;
 }
 
-/* Fix for very long code lines */
-code {
-  word-break: break-all !important;
-  overflow-wrap: break-word !important;
-}
-
-pre code {
-  word-break: normal !important;
-  white-space: pre !important;
-}
-
-/* Fix headers that might be too long */
-h1, h2, h3, h4, h5, h6 {
-  word-wrap: break-word !important;
-  overflow-wrap: break-word !important;
-  hyphens: auto !important;
-}
-
-.error-examples {
-  margin: 1.5rem 0;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-.error-item {
-  background: rgba(239, 68, 68, 0.05);
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  overflow: hidden;
-  word-wrap: break-word;
-}
-
-.error-item h4 {
-  margin: 0 0 0.5rem 0;
-  color: var(--dd-error);
-  font-size: 0.95rem;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-}
-
-.error-item pre {
-  background: rgba(239, 68, 68, 0.1);
-  border: none;
-  margin: 0.5rem 0;
-  padding: 0.5rem;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  overflow-x: auto;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-
-.error-item p {
-  margin: 0.5rem 0 0 0;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-}
-
-/* Next Steps Grid */
-.next-steps-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin: 2rem 0;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-.next-step-card {
-  background: var(--dd-surface);
-  border: 2px solid var(--dd-border);
-  border-radius: 12px;
-  padding: 1.5rem;
-  text-align: center;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  overflow: hidden;
-}
-
-.next-step-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--dd-primary), var(--dd-secondary));
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-}
-
-.next-step-card:hover {
-  border-color: var(--dd-primary);
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.2);
-}
-
-.next-step-card:hover::before {
-  transform: scaleX(1);
-}
-
-.step-icon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  display: block;
-  text-align: center;
-  line-height: 1;
-}
-
-.next-step-card h3 {
-  margin: 0 0 0.75rem 0;
-  color: var(--dd-text);
-  font-size: 1.1rem;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-}
-
-.next-step-card p {
-  margin: 0 0 1.25rem 0;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  color: var(--dd-text-muted);
-  font-size: 0.9rem;
-  line-height: 1.5;
-}
-
-.step-link {
-  color: var(--dd-primary);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: color 0.2s ease;
-}
-
-.step-link:hover {
-  color: var(--dd-primary-dark);
-  text-decoration: underline;
-}
-
-/* Help Section */
-.help-section {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin: 2rem 0;
-}
-
-.help-card {
-  background: var(--dd-surface);
-  border: 1px solid var(--dd-border);
-  border-radius: 8px;
-  padding: 1.25rem;
-  text-align: center;
-  transition: all 0.2s ease;
-}
-
-.help-card:hover {
-  border-color: var(--dd-primary);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
-}
-
-.help-card h4 {
-  margin: 0 0 0.5rem 0;
-  color: var(--dd-text);
-  font-size: 1rem;
-}
-
-.help-card p {
-  margin: 0 0 1rem 0;
-  color: var(--dd-text-muted);
-  font-size: 0.85rem;
-}
-
-.help-card a {
-  color: var(--dd-primary);
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.9rem;
-}
-
-.help-card a:hover {
-  text-decoration: underline;
-}
-
-/* Laptop/Desktop specific fixes */
+/* Laptop/Desktop specific fixes - Modified to preserve side-by-side layout */
 @media (min-width: 1024px) {
   .content,
   #content,
   main {
-    margin-left: 0 !important;
-    padding-left: 0 !important;
-    width: calc(100% - var(--sidebar-width, 300px)) !important;
-    max-width: calc(100% - var(--sidebar-width, 300px)) !important;
     box-sizing: border-box !important;
   }
   
@@ -568,7 +366,8 @@ h1, h2, h3, h4, h5, h6 {
   
   pre,
   .code-block {
-    max-width: calc(100vw - var(--sidebar-width, 300px) - 100px) !important;
+    /* Adjust this to use the container width instead of viewport width */
+    max-width: 100% !important;
     overflow-x: auto !important;
   }
 }
@@ -1709,7 +1508,7 @@ td a:hover {
   }
 }
 
-/* Page layout styles moved to page-layout.css - removing duplicates */
+
 
 /* Custom utility classes */
 .text-center {
@@ -1762,7 +1561,6 @@ td a:hover {
   }
 }
 
-/* Duplicate page layout section removed - styles are in page-layout.css */
 
 /* 
 Hide navigation arrows completely */
@@ -1869,6 +1667,194 @@ lockchain Grid Styling */
   position: relative;
   overflow: hidden;
 }
+
+.blockchain-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--dd-primary), var(--dd-secondary));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.blockchain-card:hover {
+  border-color: var(--dd-primary);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.2);
+  text-decoration: none;
+  color: var(--dd-text);
+}
+
+.blockchain-card:hover::before {
+  transform: scaleX(1);
+}
+
+.blockchain-logo {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 0.75rem;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.blockchain-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--dd-text);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.blockchain-card:hover .blockchain-name {
+  color: var(--dd-primary);
+}
+
+/* Responsive design for blockchain grid */
+@media (max-width: 1024px) {
+  .blockchain-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .blockchain-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .blockchain-card {
+    padding: 1.2rem 0.8rem;
+  }
+
+  .blockchain-logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .blockchain-name {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .blockchain-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+
+  .blockchain-card {
+    padding: 1rem 0.6rem;
+  }
+
+  .blockchain-logo {
+    width: 36px;
+    height: 36px;
+  }
+
+  .blockchain-name {
+    font-size: 0.85rem;
+  }
+}
+
+/* TOC Active Link Highlighting with JavaScript */
+.content-toc {
+  position: sticky;
+  top: 30px;
+  max-height: calc(100vh - 60px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--dd-primary) var(--dd-surface);
+}
+
+.content-toc::-webkit-scrollbar {
+  width: 6px;
+}
+
+.content-toc::-webkit-scrollbar-track {
+  background: var(--dd-surface);
+}
+
+.content-toc::-webkit-scrollbar-thumb {
+  background-color: var(--dd-primary);
+  border-radius: 6px;
+}
+
+.toc-header {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--dd-primary);
+  padding: 20px;
+  border-bottom: 1px solid var(--dd-border);
+  background: var(--dd-surface);
+  /* border-radius: 12px 12px 0 0; */
+}
+
+.toc-nav {
+  padding: 15px 0;
+}
+
+.toc-nav ul {
+  list-style-type: none;
+  padding: 0 20px;
+}
+
+.toc-nav li {
+  margin: 5px 0;
+  position: relative;
+}
+
+.toc-nav li ul {
+  padding-left: 15px;
+  margin-top: 8px;
+}
+
+.toc-nav a {
+  text-decoration: none;
+  color: var(--dd-text-muted);
+  display: block;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  border-left: 2px solid transparent;
+}
+
+.toc-nav a:hover {
+  color: var(--dd-primary);
+  /* border-left-color: var(--dd-primary-dark); */
+}
+
+.toc-nav a.active {
+  color: var(--dd-primary);
+  background: rgba(99, 102, 241, 0.08);
+  font-weight: 500;
+  border-left-color: var(--dd-primary);
+}
+
+/* Add smooth scrolling to the whole document */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Add a small JavaScript snippet to handle active link states based on scroll position */
+.content-main h1[id],
+.content-main h2[id],
+.content-main h3[id],
+.content-main h4[id] {
+  scroll-margin-top: 30px; /* Ensures the heading isn't hidden under sticky elements when scrolled to */
+}
+  /* border: 2px solid var(--dd-border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--dd-text);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+} */
 
 .blockchain-card::before {
   content: "";

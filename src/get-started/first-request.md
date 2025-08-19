@@ -91,15 +91,6 @@ async function main() {
 main();
 ```
 
-Expected output:
-```
-✅ Most recent, finalized block: {
-  number: 18750234,
-  hash: "0x1234...abcd",
-  timestamp: "2024-01-15T10:30:45.000Z",
-  transactions: 156
-}
-```
 
 ### Python
 
@@ -134,15 +125,7 @@ if __name__ == "__main__":
     main()
 ```
 
-Expected output:
-```
-✅ Most recent, finalized block: {
-  'number': 18750234,
-  'hash': '0x1234...abcd',
-  'timestamp': '2024-01-15T10:30:45',
-  'transactions': 156
-}
-```
+
 
 ### Rust
 
@@ -186,14 +169,7 @@ alloy = { version = "0.13.0", features = ["full"] }
 tokio = { version = "1.44.1", features = ["full"] }
 ```
 
-Expected output:
-```
-✅ Most recent, finalized block:
-  Number: Some(18750234)
-  Hash: Some(0x1234...abcd)
-  Timestamp: 1705316645
-  Transactions: 156
-```
+
 
 ### cURL
 
@@ -209,21 +185,6 @@ curl -X POST \
   https://cloud.developerdao.com/rpc/ethereum/YOUR_API_KEY_GOES_HERE
 ```
 
-Expected output:
-```json
-{
-  "jsonrpc": "2.0",
-  "id": 1,
-  "result": {
-    "number": "0x11dfe0a",
-    "hash": "0x1234...abcd",
-    "timestamp": "0x659b2345",
-    "transactions": [...],
-    "gasUsed": "0x1c9c380",
-    ...
-  }
-}
-```
 
 ## What's Next? {#whats-next}
 
@@ -237,20 +198,20 @@ Expected output:
 </div>
 
 <div class="content-toc">
-<div class="toc-header">On This Page</div>
-<nav class="toc-nav">
-<ul>
-<li><a href="#prerequisites" tabindex="0">Prerequisites</a></li>
-<li><a href="#get-api-key" tabindex="0">Step 1: Get API Key</a>
-  <ul>
-    <li><a href="#create-api-key" tabindex="0">Create Your API Key</a></li>
-  </ul>
-</li>
-<li><a href="#install-dependencies" tabindex="0">Step 2: Install Dependencies</a></li>
-<li><a href="#make-first-request" tabindex="0">Step 3: Make First Request</a></li>
-<li><a href="#whats-next" tabindex="0">What's Next?</a></li>
-</ul>
-</nav>
-</div>
+    <div class="toc-header">On This Page</div>
+    <nav class="toc-nav">
+    <ul>
+    <li><a href="#prerequisites" tabindex="0">Prerequisites</a></li>
+    <li><a href="#get-api-key" tabindex="0">Step 1: Get API Key</a>
+      <ul>
+        <li><a href="#create-api-key" tabindex="0">Create Your API Key</a></li>
+      </ul>
+    </li>
+    <li><a href="#install-dependencies" tabindex="0">Step 2: Install Dependencies</a></li>
+    <li><a href="#make-first-request" tabindex="0">Step 3: Make First Request</a></li>
+    <li><a href="#whats-next" tabindex="0">What's Next?</a></li>
+    </ul>
+    </nav>
+    </div>
 
 </div>
