@@ -16,6 +16,692 @@
   --dd-error: #dc2626;
 }
 
+/* Progress Indicator */
+.progress-indicator {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+  padding: 1rem;
+  background: var(--dd-surface);
+  border-radius: 12px;
+  border: 1px solid var(--dd-border);
+}
+
+.progress-indicator .step {
+  flex: 1;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--dd-text-muted);
+  background: var(--dd-background);
+  border: 1px solid var(--dd-border);
+  position: relative;
+}
+
+.progress-indicator .step.active {
+  background: var(--dd-primary);
+  color: white;
+  border-color: var(--dd-primary);
+}
+
+.progress-indicator .step:not(:last-child)::after {
+  content: "→";
+  position: absolute;
+  right: -1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--dd-text-muted);
+  font-weight: bold;
+}
+
+/* Language Tabs */
+.language-tabs {
+  margin: 2rem 0;
+  border: 1px solid var(--dd-border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--dd-surface);
+  width: 100%;
+  max-width: 100%;
+}
+
+.tab-buttons {
+  display: flex;
+  background: var(--dd-background);
+  border-bottom: 1px solid var(--dd-border);
+  width: 100%;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  background: transparent;
+  color: var(--dd-text-muted);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 2px solid transparent;
+  min-width: 0;
+}
+
+.tab-button:hover {
+  background: var(--dd-surface);
+  color: var(--dd-text);
+}
+
+.tab-button.active {
+  color: var(--dd-primary);
+  border-bottom-color: var(--dd-primary);
+  background: var(--dd-surface);
+}
+
+.tab-content {
+  display: none;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.install-command {
+  position: relative;
+  margin-bottom: 1rem;
+  width: 100%;
+  max-width: 100%;
+}
+
+.install-command pre {
+  margin: 0;
+  background: var(--dd-code-bg);
+  border: 1px solid var(--dd-border);
+  border-radius: 8px;
+  padding: 1rem 3rem 1rem 1rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+
+/* Code Examples */
+.code-examples {
+  margin: 2rem 0;
+  width: 100% !important;
+  max-width: 100% !important;
+  clear: both;
+  position: relative;
+  z-index: 1;
+}
+
+.example-tabs {
+  display: flex;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--dd-border);
+  width: 100% !important;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.example-tab {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: transparent;
+  color: var(--dd-text-muted);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.example-tab:hover {
+  color: var(--dd-text);
+}
+
+.example-tab.active {
+  color: var(--dd-primary);
+  border-bottom-color: var(--dd-primary);
+}
+
+.example-content {
+  display: none;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 200px;
+  position: relative;
+}
+
+.example-content.active {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.code-block {
+  position: relative;
+  margin-bottom: 1.5rem;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+.code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--dd-code-bg);
+  border: 1px solid var(--dd-border);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  padding: 0.75rem 1rem;
+  width: 100% !important;
+  box-sizing: border-box;
+  gap: 0.5rem;
+}
+
+.filename {
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  font-size: 0.9rem;
+  color: var(--dd-text-muted);
+  font-weight: 500;
+  word-break: break-word;
+  min-width: 0;
+  flex: 1;
+}
+
+.copy-btn {
+  background: var(--dd-primary);
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.copy-btn:hover {
+  background: var(--dd-primary-dark);
+  transform: translateY(-1px);
+}
+
+.code-block pre {
+  margin: 0;
+  border-radius: 0 0 8px 8px;
+  border-top: none;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+
+.expected-output {
+  background: rgba(16, 185, 129, 0.05);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.expected-output h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--dd-success);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.expected-output pre {
+  background: rgba(16, 185, 129, 0.05);
+  border: none;
+  margin: 0;
+  padding: 0.75rem;
+  border-radius: 4px;
+}
+
+/* Fix for accordion layout issues */
+.code-examples .example-content pre {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.code-examples .example-content .code-block {
+  width: 100% !important;
+  max-width: 100% !important;
+  position: relative;
+}
+
+.code-examples .example-content .hljs {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  white-space: pre !important;
+}
+
+/* Ensure accordion content takes full width */
+.code-examples .example-content {
+  overflow: visible !important;
+  display: block !important;
+}
+
+.code-examples .example-content.active {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Override any global constraints */
+main .code-examples,
+.content .code-examples,
+#content .code-examples {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+main .code-examples .example-content,
+.content .code-examples .example-content,
+#content .code-examples .example-content {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* Prevent overflow into sidebar */
+.content,
+#content,
+main {
+  overflow-x: hidden !important;
+  word-wrap: break-word !important;
+}
+
+.content > *,
+#content > *,
+main > * {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  word-wrap: break-word !important;
+}
+
+/* Specific fixes for elements that tend to overflow */
+pre,
+.code-block,
+.code-examples,
+.error-examples,
+.next-steps-grid,
+.help-section,
+.install-command,
+.expected-output {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow-x: auto !important;
+}
+
+/* Fix for very long code lines */
+code {
+  word-break: break-all !important;
+  overflow-wrap: break-word !important;
+}
+
+pre code {
+  word-break: normal !important;
+  white-space: pre !important;
+}
+
+/* Fix headers that might be too long */
+h1, h2, h3, h4, h5, h6 {
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  hyphens: auto !important;
+}
+
+.error-examples {
+  margin: 1.5rem 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.error-item {
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+.error-item h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--dd-error);
+  font-size: 0.95rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.error-item pre {
+  background: rgba(239, 68, 68, 0.1);
+  border: none;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.error-item p {
+  margin: 0.5rem 0 0 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Next Steps Grid */
+.next-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.next-step-card {
+  background: var(--dd-surface);
+  border: 2px solid var(--dd-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+
+.next-step-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--dd-primary), var(--dd-secondary));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.next-step-card:hover {
+  border-color: var(--dd-primary);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.2);
+}
+
+.next-step-card:hover::before {
+  transform: scaleX(1);
+}
+
+.step-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+  text-align: center;
+  line-height: 1;
+}
+
+.next-step-card h3 {
+  margin: 0 0 0.75rem 0;
+  color: var(--dd-text);
+  font-size: 1.1rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.next-step-card p {
+  margin: 0 0 1.25rem 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  color: var(--dd-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.step-link {
+  color: var(--dd-primary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.step-link:hover {
+  color: var(--dd-primary-dark);
+  text-decoration: underline;
+}
+
+/* Help Section */
+.help-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.help-card {
+  background: var(--dd-surface);
+  border: 1px solid var(--dd-border);
+  border-radius: 8px;
+  padding: 1.25rem;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.help-card:hover {
+  border-color: var(--dd-primary);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+}
+
+.help-card h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--dd-text);
+  font-size: 1rem;
+}
+
+.help-card p {
+  margin: 0 0 1rem 0;
+  color: var(--dd-text-muted);
+  font-size: 0.85rem;
+}
+
+.help-card a {
+  color: var(--dd-primary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.help-card a:hover {
+  text-decoration: underline;
+}
+
+/* Laptop/Desktop specific fixes */
+@media (min-width: 1024px) {
+  .content,
+  #content,
+  main {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    width: calc(100% - var(--sidebar-width, 300px)) !important;
+    max-width: calc(100% - var(--sidebar-width, 300px)) !important;
+    box-sizing: border-box !important;
+  }
+  
+  .code-examples,
+  .error-examples,
+  .next-steps-grid {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  
+  pre,
+  .code-block {
+    max-width: calc(100vw - var(--sidebar-width, 300px) - 100px) !important;
+    overflow-x: auto !important;
+  }
+}
+
+/* Tablet view fixes */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .content,
+  #content,
+  main {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 1rem !important;
+  }
+}
+
+/* Mobile responsiveness improvements */
+@media (max-width: 768px) {
+  .progress-indicator {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .progress-indicator .step:not(:last-child)::after {
+    display: none;
+  }
+  
+  .tab-buttons {
+    flex-direction: column;
+  }
+  
+  .tab-button {
+    flex: none;
+  }
+  
+  .example-tabs {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    width: 100% !important;
+  }
+  
+  .example-tab {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .code-examples {
+    margin: 1rem 0;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  .example-content {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  .next-steps-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .help-section {
+    grid-template-columns: 1fr;
+  }
+  
+  .code-header {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+  
+  .language-tabs {
+    overflow-x: auto;
+  }
+  
+  .tab-content {
+    padding: 1rem;
+  }
+  
+  .install-command pre,
+  .code-block pre,
+  pre {
+    font-size: 0.85rem;
+    padding: 0.75rem;
+  }
+  
+  .network-card {
+    margin: 0.25rem 0;
+    padding: 0.75rem;
+  }
+
+  .method-signature {
+    padding: 0.75rem;
+  }
+
+  .service-cards {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .service-card {
+    padding: 1rem;
+  }
+
+  .service-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .network-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+  }
+
+  table {
+    font-size: 0.9rem;
+    overflow-x: auto;
+    display: block;
+    white-space: nowrap;
+  }
+
+  th,
+  td {
+    padding: 0.75rem 0.5rem;
+  }
+}
+
 /* Light theme overrides */
 .navy {
   --bg: var(--dd-background);
@@ -59,6 +745,9 @@ pre {
   border-radius: 8px;
   padding: 1rem;
   overflow-x: auto;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 code {
@@ -67,12 +756,15 @@ code {
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
   font-size: 0.9em;
+  word-break: break-word;
 }
 
 pre code {
   background: transparent;
   color: var(--dd-text);
   padding: 0;
+  word-break: normal;
+  white-space: pre;
 }
 
 /* Tables */

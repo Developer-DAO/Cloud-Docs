@@ -4,10 +4,7 @@
 
 
 - [Get Started]()
-  - [Get started with D_D Cloud](./get-started/get-started.md)
   - [Make your first request](./get-started/first-request.md)
-  - [Understand rate limits](./get-started/rate-limits.md)
-
 # Networks
 
 - [Supported networks](./networks/overview.md)

@@ -6,6 +6,8 @@
     // Initialize when DOM is ready
     document.addEventListener('DOMContentLoaded', function () {
         initializeCustomFeatures();
+        initializeInteractiveTabs();
+        initializeTableOfContents();
     });
 
     function initializeCustomFeatures() {
@@ -14,71 +16,80 @@
         addInteractiveExamples();
         addSearchEnhancements();
         addNavigationEnhancements();
-        addTableOfContents();
     }
 
-    // Add copy buttons to code blocks
-    function addCopyButtons() {
-        const codeBlocks = document.querySelectorAll('pre code');
+    // Initialize interactive tabs for language/code examples
+    function initializeInteractiveTabs() {
+        // Language tabs for installation
+        const languageTabs = document.querySelectorAll('.language-tabs');
+        languageTabs.forEach(function (tabContainer) {
+            const buttons = tabContainer.querySelectorAll('.tab-button');
+            const contents = tabContainer.querySelectorAll('.tab-content');
 
-        codeBlocks.forEach(function (codeBlock) {
-            const pre = codeBlock.parentElement;
-            const button = document.createElement('button');
+            buttons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    const lang = this.getAttribute('data-lang');
 
-            button.className = 'copy-button';
-            button.innerHTML = '📋 Copy';
-            button.title = 'Copy to clipboard';
+                    // Remove active class from all buttons and contents
+                    buttons.forEach(b => b.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
 
-            button.addEventListener('click', function () {
-                copyToClipboard(codeBlock.textContent);
-                button.innerHTML = '✅ Copied!';
-                button.style.color = '#10b981';
+                    // Add active class to clicked button and corresponding content
+                    this.classList.add('active');
+                    const targetContent = tabContainer.querySelector(`.tab-content.${lang}`);
+                    if (targetContent) {
+                        targetContent.classList.add('active');
+                    }
+                });
+            });
+        });
 
-                setTimeout(function () {
-                    button.innerHTML = '📋 Copy';
-                    button.style.color = '';
-                }, 2000);
+        // Example tabs for code samples
+        const exampleTabs = document.querySelectorAll('.code-examples');
+        exampleTabs.forEach(function (exampleContainer) {
+            const tabs = exampleContainer.querySelectorAll('.example-tab');
+            const contents = exampleContainer.querySelectorAll('.example-content');
+
+            tabs.forEach(function (tab) {
+                tab.addEventListener('click', function () {
+                    const example = this.getAttribute('data-example');
+
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+
+                    // Add active class to clicked tab and corresponding content
+                    this.classList.add('active');
+                    const targetContent = exampleContainer.querySelector(`.example-content.${example}`);
+                    if (targetContent) {
+                        targetContent.classList.add('active');
+                    }
+
+                    // Store preference in localStorage
+                    localStorage.setItem('preferredLanguage', example);
+                });
             });
 
-            // Style the button
-            button.style.cssText = `
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        background: var(--dd-surface);
-        border: 1px solid var(--dd-border);
-        color: var(--dd-text-muted);
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 12px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        z-index: 10;
-      `;
-
-            // Make pre relative for absolute positioning
-            pre.style.position = 'relative';
-            pre.appendChild(button);
-
-            // Hover effects
-            button.addEventListener('mouseenter', function () {
-                button.style.background = 'var(--dd-primary)';
-                button.style.color = 'white';
-            });
-
-            button.addEventListener('mouseleave', function () {
-                if (!button.innerHTML.includes('Copied')) {
-                    button.style.background = 'var(--dd-surface)';
-                    button.style.color = 'var(--dd-text-muted)';
+            // Load preferred language from localStorage
+            const preferredLang = localStorage.getItem('preferredLanguage');
+            if (preferredLang) {
+                const preferredTab = exampleContainer.querySelector(`[data-example="${preferredLang}"]`);
+                if (preferredTab) {
+                    preferredTab.click();
                 }
-            });
+            }
         });
     }
 
-    // Copy text to clipboard
-    function copyToClipboard(text) {
+    // Global copy function for copy buttons
+    window.copyToClipboard = function (button) {
+        const codeBlock = button.closest('.code-block, .install-command').querySelector('code, pre');
+        const text = codeBlock ? codeBlock.textContent : '';
+
         if (navigator.clipboard && window.isSecureContext) {
-            navigator.clipboard.writeText(text);
+            navigator.clipboard.writeText(text).then(function () {
+                showCopySuccess(button);
+            });
         } else {
             // Fallback for older browsers
             const textArea = document.createElement('textarea');
@@ -92,15 +103,107 @@
 
             try {
                 document.execCommand('copy');
+                showCopySuccess(button);
             } catch (err) {
                 console.error('Failed to copy text: ', err);
             }
 
             document.body.removeChild(textArea);
         }
+    };
+
+    function showCopySuccess(button) {
+        const originalText = button.textContent;
+        button.textContent = '✅ Copied!';
+        button.style.background = 'var(--dd-success)';
+
+        setTimeout(function () {
+            button.textContent = originalText;
+            button.style.background = 'var(--dd-primary)';
+        }, 2000);
     }
 
-    // Add network status indicators
+    // Add copy buttons to existing code blocks
+    function addCopyButtons() {
+        const codeBlocks = document.querySelectorAll('pre code');
+
+        codeBlocks.forEach(function (codeBlock) {
+            const pre = codeBlock.parentElement;
+
+            // Skip if copy button already exists
+            if (pre.querySelector('.copy-button')) return;
+
+            const button = document.createElement('button');
+            button.className = 'copy-button';
+            button.innerHTML = '📋 Copy';
+            button.title = 'Copy to clipboard';
+
+            button.addEventListener('click', function () {
+                copyToClipboard(codeBlock.textContent);
+                showCopySuccess(button);
+            });
+
+            // Style the button
+            button.style.cssText = `
+                position: absolute;
+                top: 8px;
+                right: 8px;
+                background: var(--dd-primary);
+                color: white;
+                border: none;
+                padding: 0.4rem 0.8rem;
+                border-radius: 4px;
+                font-size: 0.8rem;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                z-index: 10;
+            `;
+
+            // Make pre relative for absolute positioning
+            pre.style.position = 'relative';
+            pre.appendChild(button);
+
+            // Hover effects
+            button.addEventListener('mouseenter', function () {
+                button.style.background = 'var(--dd-primary-dark)';
+            });
+
+            button.addEventListener('mouseleave', function () {
+                if (!button.innerHTML.includes('Copied')) {
+                    button.style.background = 'var(--dd-primary)';
+                }
+            });
+        });
+    }
+
+    // Copy text to clipboard
+    function copyToClipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+            return navigator.clipboard.writeText(text);
+        } else {
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                document.execCommand('copy');
+                return Promise.resolve();
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+                return Promise.reject(err);
+            } finally {
+                document.body.removeChild(textArea);
+            }
+        }
+    }
+
+    // Add network status indicators (placeholder implementation)
     function addNetworkStatusIndicators() {
         const networkElements = document.querySelectorAll('[data-network]');
 
@@ -109,38 +212,14 @@
             const statusIndicator = document.createElement('span');
 
             statusIndicator.className = 'network-status';
-            statusIndicator.innerHTML = '🟢'; // Default to online
+            statusIndicator.innerHTML = '🟢';
             statusIndicator.title = `${network} status: Online`;
 
             element.appendChild(statusIndicator);
-
-            // Check actual network status (if API is available)
-            checkNetworkStatus(network).then(function (status) {
-                if (status === 'online') {
-                    statusIndicator.innerHTML = '🟢';
-                    statusIndicator.title = `${network} status: Online`;
-                } else if (status === 'degraded') {
-                    statusIndicator.innerHTML = '🟡';
-                    statusIndicator.title = `${network} status: Degraded Performance`;
-                } else {
-                    statusIndicator.innerHTML = '🔴';
-                    statusIndicator.title = `${network} status: Offline`;
-                }
-            });
         });
     }
 
-    // Mock network status check (replace with actual API call)
-    function checkNetworkStatus(network) {
-        return new Promise(function (resolve) {
-            // Simulate API call
-            setTimeout(function () {
-                resolve('online'); // Mock response
-            }, 100);
-        });
-    }
-
-    // Add interactive examples
+    // Add interactive examples (placeholder)
     function addInteractiveExamples() {
         const examples = document.querySelectorAll('.interactive-example');
 
@@ -151,225 +230,47 @@
             runButton.title = 'Run this example';
 
             runButton.style.cssText = `
-        background: var(--dd-primary);
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 4px;
-        cursor: pointer;
-        margin-top: 8px;
-        font-size: 14px;
-        transition: background 0.2s ease;
-      `;
+                background: var(--dd-primary);
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 4px;
+                cursor: pointer;
+                margin-top: 8px;
+                font-size: 14px;
+                transition: background 0.2s ease;
+            `;
 
             runButton.addEventListener('click', function () {
                 runInteractiveExample(example);
-            });
-
-            runButton.addEventListener('mouseenter', function () {
-                runButton.style.background = 'var(--dd-primary-dark)';
-            });
-
-            runButton.addEventListener('mouseleave', function () {
-                runButton.style.background = 'var(--dd-primary)';
             });
 
             example.appendChild(runButton);
         });
     }
 
-    // Run interactive example (placeholder)
     function runInteractiveExample(example) {
-        const resultDiv = example.querySelector('.example-result') ||
-            document.createElement('div');
-
-        if (!example.querySelector('.example-result')) {
-            resultDiv.className = 'example-result';
-            resultDiv.style.cssText = `
-        background: var(--dd-surface);
-        border: 1px solid var(--dd-border);
-        border-radius: 4px;
-        padding: 12px;
-        margin-top: 8px;
-        font-family: monospace;
-        font-size: 14px;
-      `;
-            example.appendChild(resultDiv);
-        }
-
-        resultDiv.innerHTML = '⏳ Running example...';
-
-        // Simulate API call
-        setTimeout(function () {
-            resultDiv.innerHTML = `
-        <div style="color: var(--dd-success);">✅ Success!</div>
-        <div style="margin-top: 8px;">
-          <strong>Result:</strong><br>
-          <code>{"jsonrpc":"2.0","id":1,"result":"0x1b4"}</code>
-        </div>
-      `;
-        }, 1500);
+        // Placeholder implementation
+        console.log('Running interactive example...');
     }
 
-    // Enhance search functionality
+    // Enhanced search functionality
     function addSearchEnhancements() {
-        const searchInput = document.querySelector('#searchbar input');
+        const searchInput = document.querySelector('#searchbar input, .searchbar input');
         if (!searchInput) return;
 
-        // Add search suggestions
-        const suggestionsDiv = document.createElement('div');
-        suggestionsDiv.className = 'search-suggestions';
-        suggestionsDiv.style.cssText = `
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: var(--dd-surface);
-      border: 1px solid var(--dd-border);
-      border-top: none;
-      border-radius: 0 0 8px 8px;
-      max-height: 200px;
-      overflow-y: auto;
-      z-index: 1000;
-      display: none;
-    `;
-
-        searchInput.parentElement.style.position = 'relative';
-        searchInput.parentElement.appendChild(suggestionsDiv);
-
-        // Popular search terms
-        const popularSearches = [
-            'eth_getBalance',
-            'eth_sendTransaction',
-            'solana getAccountInfo',
-            'websocket subscription',
-            'rate limits',
-            'authentication',
-            'error codes'
-        ];
-
-        searchInput.addEventListener('focus', function () {
-            if (searchInput.value === '') {
-                showSearchSuggestions(popularSearches, 'Popular searches:');
+        // Add keyboard shortcut (Ctrl/Cmd + K)
+        document.addEventListener('keydown', function (e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                searchInput.focus();
             }
         });
-
-        searchInput.addEventListener('input', function () {
-            const query = searchInput.value.toLowerCase();
-            if (query.length > 2) {
-                const filtered = popularSearches.filter(term =>
-                    term.toLowerCase().includes(query)
-                );
-                showSearchSuggestions(filtered, 'Suggestions:');
-            } else if (query === '') {
-                showSearchSuggestions(popularSearches, 'Popular searches:');
-            } else {
-                suggestionsDiv.style.display = 'none';
-            }
-        });
-
-        document.addEventListener('click', function (e) {
-            if (!searchInput.parentElement.contains(e.target)) {
-                suggestionsDiv.style.display = 'none';
-            }
-        });
-
-        function showSearchSuggestions(suggestions, title) {
-            if (suggestions.length === 0) {
-                suggestionsDiv.style.display = 'none';
-                return;
-            }
-
-            let html = `<div style="padding: 8px; font-weight: bold; color: var(--dd-text-muted); font-size: 12px;">${title}</div>`;
-
-            suggestions.forEach(function (suggestion) {
-                html += `
-          <div class="search-suggestion" style="
-            padding: 8px 12px;
-            cursor: pointer;
-            border-bottom: 1px solid var(--dd-border);
-            transition: background 0.2s ease;
-          " data-suggestion="${suggestion}">
-            ${suggestion}
-          </div>
-        `;
-            });
-
-            suggestionsDiv.innerHTML = html;
-            suggestionsDiv.style.display = 'block';
-
-            // Add click handlers
-            suggestionsDiv.querySelectorAll('.search-suggestion').forEach(function (item) {
-                item.addEventListener('mouseenter', function () {
-                    item.style.background = 'var(--dd-primary)';
-                    item.style.color = 'white';
-                });
-
-                item.addEventListener('mouseleave', function () {
-                    item.style.background = '';
-                    item.style.color = '';
-                });
-
-                item.addEventListener('click', function () {
-                    searchInput.value = item.getAttribute('data-suggestion');
-                    suggestionsDiv.style.display = 'none';
-                    // Trigger search
-                    const event = new Event('input', { bubbles: true });
-                    searchInput.dispatchEvent(event);
-                });
-            });
-        }
     }
 
     // Add navigation enhancements
     function addNavigationEnhancements() {
-        // Add "Edit this page" links
-        addEditLinks();
-
-        // Add "Back to top" button
         addBackToTopButton();
-
-        // Add breadcrumb navigation
-        addBreadcrumbs();
-
-        // Add page navigation (prev/next)
-        addPageNavigation();
-    }
-
-    function addEditLinks() {
-        const content = document.querySelector('.content');
-        if (!content) return;
-
-        const editLink = document.createElement('a');
-        editLink.href = '#'; // Replace with actual GitHub edit URL
-        editLink.innerHTML = '✏️ Edit this page';
-        editLink.className = 'edit-link';
-        editLink.style.cssText = `
-      display: inline-block;
-      margin-top: 2rem;
-      padding: 8px 12px;
-      background: var(--dd-surface);
-      border: 1px solid var(--dd-border);
-      border-radius: 4px;
-      color: var(--dd-text-muted);
-      text-decoration: none;
-      font-size: 14px;
-      transition: all 0.2s ease;
-    `;
-
-        editLink.addEventListener('mouseenter', function () {
-            editLink.style.background = 'var(--dd-primary)';
-            editLink.style.color = 'white';
-            editLink.style.borderColor = 'var(--dd-primary)';
-        });
-
-        editLink.addEventListener('mouseleave', function () {
-            editLink.style.background = 'var(--dd-surface)';
-            editLink.style.color = 'var(--dd-text-muted)';
-            editLink.style.borderColor = 'var(--dd-border)';
-        });
-
-        content.appendChild(editLink);
     }
 
     function addBackToTopButton() {
@@ -378,23 +279,23 @@
         button.className = 'back-to-top';
         button.title = 'Back to top';
         button.style.cssText = `
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 50px;
-      height: 50px;
-      background: var(--dd-primary);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      font-size: 20px;
-      cursor: pointer;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-      z-index: 1000;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    `;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--dd-primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        `;
 
         document.body.appendChild(button);
 
@@ -413,293 +314,14 @@
         });
     }
 
-    function addBreadcrumbs() {
-        const content = document.querySelector('.content');
-        const sidebar = document.querySelector('.sidebar');
-        if (!content || !sidebar) return;
-
-        const activeChapter = sidebar.querySelector('.chapter-item.expanded');
-        if (!activeChapter) return;
-
-        const breadcrumbs = document.createElement('nav');
-        breadcrumbs.className = 'breadcrumbs';
-        breadcrumbs.style.cssText = `
-      margin-bottom: 1rem;
-      padding: 0.5rem 0;
-      border-bottom: 1px solid var(--dd-border);
-      font-size: 14px;
-      color: var(--dd-text-muted);
-    `;
-
-        // Build breadcrumb path
-        let path = [];
-        let current = activeChapter;
-
-        while (current && current.classList.contains('chapter-item')) {
-            const link = current.querySelector('a');
-            if (link) {
-                path.unshift({
-                    text: link.textContent.trim(),
-                    href: link.href
-                });
-            }
-            current = current.parentElement.closest('.chapter-item');
-        }
-
-        let breadcrumbHTML = path.map(function (item, index) {
-            if (index === path.length - 1) {
-                return `<span class="breadcrumb-current">${item.text}</span>`;
-            } else {
-                return `<a href="${item.href}" class="breadcrumb-link">${item.text}</a>`;
-            }
-        }).join(' <span class="breadcrumb-separator">›</span> ');
-
-        breadcrumbs.innerHTML = breadcrumbHTML;
-
-        // Style breadcrumb links
-        const style = document.createElement('style');
-        style.textContent = `
-      .breadcrumb-link {
-        color: var(--dd-primary);
-        text-decoration: none;
-      }
-      .breadcrumb-link:hover {
-        text-decoration: underline;
-      }
-      .breadcrumb-current {
-        color: var(--dd-text);
-        font-weight: 500;
-      }
-      .breadcrumb-separator {
-        margin: 0 0.5rem;
-        color: var(--dd-text-muted);
-      }
-    `;
-        document.head.appendChild(style);
-
-        content.insertBefore(breadcrumbs, content.firstChild);
-    }
-
-    function addPageNavigation() {
-        const content = document.querySelector('.content');
-        if (!content) return;
-
-        const navContainer = document.createElement('div');
-        navContainer.className = 'page-navigation';
-        navContainer.style.cssText = `
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 3rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--dd-border);
-    `;
-
-        // Get previous and next chapters from sidebar
-        const sidebar = document.querySelector('.sidebar');
-        const chapters = Array.from(sidebar.querySelectorAll('.chapter-item a'));
-        const currentHref = window.location.pathname;
-        const currentIndex = chapters.findIndex(link =>
-            link.getAttribute('href') === currentHref
-        );
-
-        let prevHTML = '<div></div>'; // Empty div for spacing
-        let nextHTML = '<div></div>';
-
-        if (currentIndex > 0) {
-            const prevChapter = chapters[currentIndex - 1];
-            prevHTML = `
-        <a href="${prevChapter.href}" class="nav-link nav-prev">
-          <div class="nav-direction">← Previous</div>
-          <div class="nav-title">${prevChapter.textContent.trim()}</div>
-        </a>
-      `;
-        }
-
-        if (currentIndex < chapters.length - 1) {
-            const nextChapter = chapters[currentIndex + 1];
-            nextHTML = `
-        <a href="${nextChapter.href}" class="nav-link nav-next">
-          <div class="nav-direction">Next →</div>
-          <div class="nav-title">${nextChapter.textContent.trim()}</div>
-        </a>
-      `;
-        }
-
-        navContainer.innerHTML = prevHTML + nextHTML;
-
-        // Style navigation links
-        const navStyle = document.createElement('style');
-        navStyle.textContent = `
-      .nav-link {
-        display: block;
-        padding: 1rem;
-        background: var(--dd-surface);
-        border: 1px solid var(--dd-border);
-        border-radius: 8px;
-        text-decoration: none;
-        color: var(--dd-text);
-        transition: all 0.2s ease;
-        max-width: 300px;
-      }
-      .nav-link:hover {
-        border-color: var(--dd-primary);
-        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
-      }
-      .nav-direction {
-        font-size: 12px;
-        color: var(--dd-text-muted);
-        margin-bottom: 0.25rem;
-      }
-      .nav-title {
-        font-weight: 500;
-        color: var(--dd-primary);
-      }
-      .nav-prev {
-        text-align: left;
-      }
-      .nav-next {
-        text-align: right;
-      }
-    `;
-        document.head.appendChild(navStyle);
-
-        content.appendChild(navContainer);
-    }
-
-    // Add keyboard shortcuts
-    document.addEventListener('keydown', function (e) {
-        // Ctrl/Cmd + K to focus search
-        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-            e.preventDefault();
-            const searchInput = document.querySelector('#searchbar input');
-            if (searchInput) {
-                searchInput.focus();
-            }
-        }
-
-        // Escape to close search suggestions
-        if (e.key === 'Escape') {
-            const suggestions = document.querySelector('.search-suggestions');
-            if (suggestions) {
-                suggestions.style.display = 'none';
-            }
-        }
-    });
-
-    // Add loading states for dynamic content
-    function showLoading(element) {
-        element.classList.add('loading');
-    }
-
-    function hideLoading(element) {
-        element.classList.remove('loading');
-    }
-
-    // Add automatic table of contents generation
-    function addTableOfContents() {
-        // Skip if page already has a TOC
-        if (document.querySelector('.content-toc')) return;
-
-        const content = document.querySelector('.content');
-        if (!content) return;
-
-        // Find all headings
-        const headings = content.querySelectorAll('h1, h2, h3, h4');
-        if (headings.length < 2) return; // Don't add TOC for pages with few headings
-
-        // Create page layout wrapper
-        const pageLayout = document.createElement('div');
-        pageLayout.className = 'page-layout';
-
-        // Create main content wrapper
-        const contentMain = document.createElement('div');
-        contentMain.className = 'content-main';
-
-        // Move existing content to main wrapper
-        while (content.firstChild) {
-            contentMain.appendChild(content.firstChild);
-        }
-
-        // Create TOC
-        const tocContainer = document.createElement('div');
-        tocContainer.className = 'content-toc';
-
-        const tocHeader = document.createElement('div');
-        tocHeader.className = 'toc-header';
-        tocHeader.textContent = 'On this page';
-
-        const tocNav = document.createElement('nav');
-        tocNav.className = 'toc-nav';
-
-        const tocList = document.createElement('ul');
-
-        // Generate TOC items
-        let currentLevel = 1;
-        let currentList = tocList;
-        const listStack = [tocList];
-
-        headings.forEach((heading, index) => {
-            const level = parseInt(heading.tagName.charAt(1));
-            const text = heading.textContent.trim();
-
-            // Create anchor ID if it doesn't exist
-            if (!heading.id) {
-                heading.id = text.toLowerCase()
-                    .replace(/[^\w\s-]/g, '')
-                    .replace(/\s+/g, '-')
-                    .replace(/-+/g, '-')
-                    .replace(/^-|-$/g, '');
-            }
-
-            // Handle nesting
-            if (level > currentLevel) {
-                // Going deeper
-                const nestedList = document.createElement('ul');
-                const lastItem = currentList.lastElementChild;
-                if (lastItem) {
-                    lastItem.appendChild(nestedList);
-                }
-                listStack.push(nestedList);
-                currentList = nestedList;
-            } else if (level < currentLevel) {
-                // Going back up
-                while (listStack.length > level && listStack.length > 1) {
-                    listStack.pop();
-                }
-                currentList = listStack[listStack.length - 1];
-            }
-
-            currentLevel = level;
-
-            // Create list item
-            const listItem = document.createElement('li');
-            const link = document.createElement('a');
-            link.href = '#' + heading.id;
-            link.textContent = text;
-            link.tabIndex = 0;
-
-            listItem.appendChild(link);
-            currentList.appendChild(listItem);
-        });
-
-        // Assemble TOC
-        tocNav.appendChild(tocList);
-        tocContainer.appendChild(tocHeader);
-        tocContainer.appendChild(tocNav);
-
-        // Assemble page layout
-        pageLayout.appendChild(contentMain);
-        pageLayout.appendChild(tocContainer);
-        content.appendChild(pageLayout);
-
-        // Add TOC functionality
-        addTocFunctionality(tocContainer);
-    }
-
-    function addTocFunctionality(tocContainer) {
-        const tocLinks = tocContainer.querySelectorAll('.toc-nav a');
+    // Table of Contents functionality
+    function initializeTableOfContents() {
+        const tocLinks = document.querySelectorAll('.toc-nav a');
         const sections = document.querySelectorAll('[id]');
+
+        if (tocLinks.length === 0 || sections.length === 0) {
+            return;
+        }
 
         // Function to update active link
         function updateActiveLink() {
@@ -722,21 +344,9 @@
         // Update on scroll
         window.addEventListener('scroll', updateActiveLink);
 
-        // Update on click and maintain focus
+        // Update on click
         tocLinks.forEach(link => {
             link.addEventListener('click', function (e) {
-                // Remove active from all links
-                tocLinks.forEach(l => l.classList.remove('active'));
-                // Add active to clicked link
-                this.classList.add('active');
-                // Keep focus on the link
-                this.focus();
-                // Prevent losing focus
-                setTimeout(() => this.focus(), 100);
-            });
-
-            // Maintain focus when using keyboard navigation
-            link.addEventListener('focus', function () {
                 tocLinks.forEach(l => l.classList.remove('active'));
                 this.classList.add('active');
             });
@@ -749,142 +359,8 @@
     // Expose utilities globally
     window.DDCloudDocs = {
         copyToClipboard: copyToClipboard,
-        showLoading: showLoading,
-        hideLoading: hideLoading,
-        checkNetworkStatus: checkNetworkStatus,
-        addTableOfContents: addTableOfContents
+        initializeInteractiveTabs: initializeInteractiveTabs,
+        initializeTableOfContents: initializeTableOfContents
     };
 
 })();
-// Table of Contents functionality for page layout
-function initializeTableOfContents() {
-    const tocLinks = document.querySelectorAll('.toc-nav a');
-    const sections = document.querySelectorAll('[id]');
-
-    if (tocLinks.length === 0 || sections.length === 0) {
-        return; // No TOC on this page
-    }
-
-    // Function to update active link
-    function updateActiveLink() {
-        let current = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            if (window.scrollY >= sectionTop - 100) {
-                current = section.getAttribute('id');
-            }
-        });
-
-        tocLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === '#' + current) {
-                link.classList.add('active');
-            }
-        });
-    }
-
-    // Update on scroll
-    window.addEventListener('scroll', updateActiveLink);
-
-    // Update on click and maintain focus
-    tocLinks.forEach(link => {
-        link.addEventListener('click', function (e) {
-            // Remove active from all links
-            tocLinks.forEach(l => l.classList.remove('active'));
-            // Add active to clicked link
-            this.classList.add('active');
-            // Keep focus on the link
-            this.focus();
-            // Prevent losing focus
-            setTimeout(() => this.focus(), 100);
-        });
-
-        // Maintain focus when using keyboard navigation
-        link.addEventListener('focus', function () {
-            tocLinks.forEach(l => l.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
-
-    // Initial update
-    updateActiveLink();
-}
-
-// Auto-generate TOC for pages that don't have one
-function autoGenerateTableOfContents() {
-    // Only generate if page has the page-layout class but no existing TOC
-    const pageLayout = document.querySelector('.page-layout');
-    const existingToc = document.querySelector('.content-toc');
-
-    if (!pageLayout || existingToc) {
-        return; // No page layout or TOC already exists
-    }
-
-    const contentMain = document.querySelector('.content-main');
-    if (!contentMain) return;
-
-    // Find all headings with IDs
-    const headings = contentMain.querySelectorAll('h1[id], h2[id], h3[id], h4[id]');
-
-    if (headings.length === 0) return;
-
-    // Create TOC structure
-    const tocDiv = document.createElement('div');
-    tocDiv.className = 'content-toc';
-
-    const tocHeader = document.createElement('div');
-    tocHeader.className = 'toc-header';
-    tocHeader.textContent = 'On this page';
-
-    const tocNav = document.createElement('nav');
-    tocNav.className = 'toc-nav';
-
-    const tocList = document.createElement('ul');
-
-    let currentLevel = 1;
-    let currentList = tocList;
-    const listStack = [tocList];
-
-    headings.forEach(heading => {
-        const level = parseInt(heading.tagName.charAt(1));
-        const id = heading.getAttribute('id');
-        const text = heading.textContent;
-
-        // Adjust nesting based on heading level
-        if (level > currentLevel) {
-            // Create nested list
-            const nestedList = document.createElement('ul');
-            const lastItem = currentList.lastElementChild;
-            if (lastItem) {
-                lastItem.appendChild(nestedList);
-            }
-            listStack.push(nestedList);
-            currentList = nestedList;
-        } else if (level < currentLevel) {
-            // Go back to parent list
-            for (let i = currentLevel; i > level; i--) {
-                listStack.pop();
-            }
-            currentList = listStack[listStack.length - 1];
-        }
-
-        currentLevel = level;
-
-        // Create list item
-        const listItem = document.createElement('li');
-        const link = document.createElement('a');
-        link.href = '#' + id;
-        link.textContent = text;
-        link.setAttribute('tabindex', '0');
-
-        listItem.appendChild(link);
-        currentList.appendChild(listItem);
-    });
-
-    tocNav.appendChild(tocList);
-    tocDiv.appendChild(tocHeader);
-    tocDiv.appendChild(tocNav);
-
-    // Insert TOC after the page layout
-    pageLayout.appendChild(tocDiv);
-}

@@ -1,0 +1,370 @@
+<div class="page-layout">
+<style>
+/* Critical fix for tab visibility */
+.example-content { display: none; }
+.example-content.active { display: block; }
+</style>
+<div class="content-main">
+
+# Get Started with D_D Cloud RPC
+
+Welcome to D_D Cloud RPC! This guide will get you up and running in under 5 minutes. Follow along to make your first blockchain request and start building amazing dApps.
+
+# Making Your First Request
+
+<!-- <div class="progress-indicator">
+  <div class="step completed">
+    <div class="step-number">1</div>
+    <div class="step-label">Get API Key</div>
+  </div>
+  <div class="step current">
+    <div class="step-number">2</div>
+    <div class="step-label">Install Dependencies</div>
+  </div>
+  <div class="step">
+    <div class="step-number">3</div>
+    <div class="step-label">Make Request</div>
+  </div>
+  <div class="step">
+    <div class="step-number">4</div>
+    <div class="step-label">Test Connection</div>
+  </div>
+</div> -->
+
+## Prerequisites {#prerequisites}
+
+Before you begin, make sure you have:
+
+- A [D_D Cloud account](https://dashboard.ddcloud.io) (free signup)
+- Basic knowledge of your preferred programming language
+- Internet connection for API requests
+
+**Estimated time**: ~5 minutes ⏱️
+
+## Step 1: Get Your API Key {#get-api-key}
+
+API keys authenticate your requests to D_D Cloud RPC services and track your usage.
+
+
+### Create Your API Key {#create-api-key}
+
+1. Sign in to your [D_D Cloud Dashboard](https://dashboard.ddcloud.io)
+2. Navigate to **API Keys** in the left sidebar
+3. Click **Create New Key** 
+4. Choose a descriptive name (e.g., "My First dApp")
+5. Copy and securely store your API key
+
+<div class="info-callout">
+  <p><strong>💡 Pro Tip</strong><br>
+  Store your API key in environment variables, never hardcode it in your source code!</p>
+</div>
+
+## Step 2: Install Dependencies {#install-dependencies}
+
+Choose your preferred language and install the required packages:
+
+<div class="language-tabs">
+  <div class="tab-buttons">
+    <button class="tab-button active" data-lang="javascript">JavaScript/Node.js</button>
+    <button class="tab-button" data-lang="python">Python</button>
+    <button class="tab-button" data-lang="rust">Rust</button>
+    <button class="tab-button" data-lang="curl">cURL</button>
+  </div>
+
+  <div class="tab-content javascript active">
+    <div class="install-command">
+      <pre><code>npm install ethers</code></pre>
+      <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+    </div>
+    <p>The ethers.js library provides a complete and compact library for interacting with Ethereum.</p>
+  </div>
+
+  <div class="tab-content python">
+    <div class="install-command">
+      <pre><code>pip install web3</code></pre>
+      <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+    </div>
+    <p>Web3.py is the official Python library for interacting with Ethereum.</p>
+  </div>
+
+  <div class="tab-content rust">
+    <div class="install-command">
+      <pre><code>cargo add alloy tokio --features alloy/full,tokio/full</code></pre>
+      <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+    </div>
+    <p>Alloy is a modern, high-performance Ethereum library for Rust.</p>
+  </div>
+
+  <div class="tab-content curl">
+    <div class="install-command">
+      <pre><code># cURL is pre-installed on most systems
+curl --version</code></pre>
+      <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+    </div>
+    <p>cURL is available by default on macOS and most Linux distributions.</p>
+  </div>
+</div>
+
+## Step 3: Make Your First Request {#make-first-request}
+Now let's fetch the latest finalized block from Ethereum. Replace `YOUR_API_KEY_GOES_HERE` with your actual API key:
+
+<div class="code-examples">
+  <div class="example-tabs">
+    <button class="example-tab active" data-example="javascript">JavaScript/Node.js</button>
+    <button class="example-tab" data-example="python">Python</button>
+    <button class="example-tab" data-example="rust">Rust</button>
+    <button class="example-tab" data-example="curl">cURL</button>
+  </div>
+
+  <div class="example-content javascript active">
+    <div class="code-block">
+      <div class="code-header">
+        <span class="filename">index.js</span>
+        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+      </div>
+      <pre><code class="language-javascript">import { ethers } from "ethers";
+
+async function main() {
+  const provider = new ethers.JsonRpcProvider(
+    `https://cloud.developerdao.com/rpc/ethereum/YOUR_API_KEY_GOES_HERE`
+  );
+
+  try {
+    // Get the most recent finalized block
+    const block = await provider.getBlock("finalized");
+    
+    // Log the block details
+    console.log("✅ Most recent, finalized block:", {
+      number: block.number,
+      hash: block.hash,
+      timestamp: new Date(block.timestamp * 1000).toISOString(),
+      transactions: block.transactions.length
+    });
+  } catch (error) {
+    console.error("❌ Error fetching block:", error.message);
+  }
+}
+
+main();</code></pre>
+    </div>
+    
+    <div class="expected-output">
+      <h4>Expected Output:</h4>
+      <pre><code>✅ Most recent, finalized block: {
+  number: 18750234,
+  hash: "0x1234...abcd",
+  timestamp: "2024-01-15T10:30:45.000Z",
+  transactions: 156
+}</code></pre>
+    </div>
+  </div>
+
+  <div class="example-content python">
+    <div class="code-block">
+      <div class="code-header">
+        <span class="filename">main.py</span>
+        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+      </div>
+      <pre><code class="language-python">from web3 import Web3
+from datetime import datetime
+
+def main():
+    # Initialize Web3 with D_D Cloud RPC endpoint
+    provider_url = "https://cloud.developerdao.com/rpc/ethereum/YOUR_API_KEY_GOES_HERE"
+    web3 = Web3(Web3.HTTPProvider(provider_url))
+    
+    try:
+        # Check connection
+        if not web3.is_connected():
+            raise Exception("Failed to connect to D_D Cloud RPC")
+            
+        # Get the most recent finalized block
+        block = web3.eth.get_block('finalized')
+        
+        # Log the block details
+        print("✅ Most recent, finalized block:", {
+            "number": block.number,
+            "hash": block.hash.hex(),
+            "timestamp": datetime.fromtimestamp(block.timestamp).isoformat(),
+            "transactions": len(block.transactions)
+        })
+    except Exception as error:
+        print(f"❌ Error fetching block: {error}")
+
+if __name__ == "__main__":
+    main()</code></pre>
+    </div>
+    
+    <div class="expected-output">
+      <h4>Expected Output:</h4>
+      <pre><code>✅ Most recent, finalized block: {
+  'number': 18750234,
+  'hash': '0x1234...abcd',
+  'timestamp': '2024-01-15T10:30:45',
+  'transactions': 156
+}</code></pre>
+    </div>
+  </div>
+
+  <div class="example-content rust">
+    <div class="code-block">
+      <div class="code-header">
+        <span class="filename">src/main.rs</span>
+        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+      </div>
+      <pre><code class="language-rust">use alloy::{
+    eips::BlockId,
+    providers::{Provider, ProviderBuilder},
+};
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let provider = ProviderBuilder::new()
+        .on_http("https://cloud.developerdao.com/rpc/ethereum/YOUR_API_KEY_GOES_HERE"
+            .parse()?);
+    
+    match provider.get_block(BlockId::finalized()).await {
+        Ok(Some(block)) => {
+            println!("✅ Most recent, finalized block:");
+            println!("  Number: {:?}", block.header.number);
+            println!("  Hash: {:?}", block.header.hash);
+            println!("  Timestamp: {:?}", block.header.timestamp);
+            println!("  Transactions: {}", block.transactions.len());
+        }
+        Ok(None) => println!("❌ Block not found"),
+        Err(e) => println!("❌ Error fetching block: {}", e),
+    }
+    
+    Ok(())
+}</code></pre>
+    </div>
+    
+    <div class="code-block">
+      <div class="code-header">
+        <span class="filename">Cargo.toml</span>
+        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+      </div>
+      <pre><code class="language-toml">[package]
+name = "dd_cloud_demo"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+alloy = { version = "0.13.0", features = ["full"] }
+tokio = { version = "1.44.1", features = ["full"] }</code></pre>
+    </div>
+    
+    <div class="expected-output">
+      <h4>Expected Output:</h4>
+      <pre><code>✅ Most recent, finalized block:
+  Number: Some(18750234)
+  Hash: Some(0x1234...abcd)
+  Timestamp: 1705316645
+  Transactions: 156</code></pre>
+    </div>
+  </div>
+
+  <div class="example-content curl">
+    <div class="code-block">
+      <div class="code-header">
+        <span class="filename">Terminal</span>
+        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+      </div>
+      <pre><code class="language-bash">curl -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "method": "eth_getBlockByNumber",
+    "params": ["finalized", true],
+    "id": 1
+  }' \
+  https://cloud.developerdao.com/rpc/ethereum/YOUR_API_KEY_GOES_HERE</code></pre>
+    </div>
+    
+    <div class="expected-output">
+      <h4>Expected Output:</h4>
+      <pre><code>{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "number": "0x11dfe0a",
+    "hash": "0x1234...abcd",
+    "timestamp": "0x659b2345",
+    "transactions": [...],
+    "gasUsed": "0x1c9c380",
+    ...
+  }
+}</code></pre>
+    </div>
+  </div>
+</div>
+
+
+## What's Next? {#whats-next}
+
+<div class="next-steps-grid">
+  <div class="next-step-card">
+    <div class="step-icon">🚀</div>
+    <h3>Deploy Your First dApp</h3>
+    <p>Learn to build and deploy a complete decentralized application using D_D Cloud RPC.</p>
+    <a href="../tutorials/first-dapp.md" class="step-link">Start Building →</a>
+  </div>
+  
+  <div class="next-step-card">
+    <div class="step-icon">🌐</div>
+    <h3>Explore All Networks</h3>
+    <p>Discover 50+ supported blockchain networks including Ethereum, Polygon, Arbitrum, and more.</p>
+    <a href="../networks/overview.md" class="step-link">View Networks →</a>
+  </div>
+  
+  <div class="next-step-card">
+    <div class="step-icon">⚡</div>
+    <h3>Advanced Features</h3>
+    <p>WebSockets, batch requests, archive data, and performance optimization techniques.</p>
+    <a href="../advanced/websockets.md" class="step-link">Learn More →</a>
+  </div>
+  
+  <div class="next-step-card">
+    <div class="step-icon">📚</div>
+    <h3>API Reference</h3>
+    <p>Complete documentation of all available RPC methods and parameters.</p>
+    <a href="../api-reference/ethereum.md" class="step-link">View Docs →</a>
+  </div>
+  
+  <div class="next-step-card">
+    <div class="step-icon">💬</div>
+    <h3>Join Community</h3>
+    <p>Connect with other developers, get help, and share your projects with the D_D community.</p>
+    <a href="https://discord.gg/developerdao" class="step-link">Join Discord →</a>
+  </div>
+  
+  <div class="next-step-card">
+    <div class="step-icon">📊</div>
+    <h3>Monitor Usage</h3>
+    <p>Track your API usage, set up alerts, and optimize your applications for better performance.</p>
+    <a href="https://dashboard.ddcloud.io/analytics" class="step-link">View Dashboard →</a>
+  </div>
+</div>
+
+</div>
+
+<div class="content-toc">
+<div class="toc-header">On This Page</div>
+<nav class="toc-nav">
+<ul>
+<li><a href="#prerequisites" tabindex="0">Prerequisites</a></li>
+<li><a href="#get-api-key" tabindex="0">Step 1: Get API Key</a>
+  <ul>
+    <li><a href="#create-api-key" tabindex="0">Create Your API Key</a></li>
+  </ul>
+</li>
+<li><a href="#install-dependencies" tabindex="0">Step 2: Install Dependencies</a></li>
+<li><a href="#make-first-request" tabindex="0">Step 3: Make First Request</a></li>
+<li><a href="#test-connection" tabindex="0">Test Your Connection</a></li>
+<li><a href="#common-errors" tabindex="0">Common Errors</a></li>
+<li><a href="#whats-next" tabindex="0">What's Next?</a></li>
+</ul>
+</nav>
+</div>
+
+</div>
