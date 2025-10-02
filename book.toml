@@ -1,39 +1,12 @@
 [book]
-authors = ["D_D Cloud Team"]
+authors = ["Futex Labs"]
 language = "en"
 multilingual = false
 src = "src"
-title = "D_D Cloud RPC Documentation"
-description = "Comprehensive documentation for D_D Cloud's multi-chain RPC service"
+title = "D_D Cloud Docs"
 
-[preprocessor.links]
+[preprocessor.tabs]
 
 [output.html]
-additional-css = ["theme/custom.css", "theme/page-layout.css"]
-additional-js = ["theme/custom.js", "theme/page-layout.js"]
-default-theme = "navy"
-preferred-dark-theme = "navy"
-git-repository-url = "https://github.com/your-org/rpc-docs"
-edit-url-template = "https://github.com/your-org/rpc-docs/edit/main/{path}"
-no-section-label = true
-
-[output.html.search]
-enable = true
-limit-results = 30
-teaser-word-count = 30
-use-boolean-and = true
-boost-title = 2
-boost-hierarchy = 1
-boost-paragraph = 1
-expand = true
-heading-split-level = 3
-
-[output.html.fold]
-enable = true
-level = 1
-
-[output.html.playground]
-copyable = true
-copy-js = true
-line-numbers = true
-editable = true
+additional-css = ["theme/tabs.css"]
+additional-js = ["theme/tabs.js"]

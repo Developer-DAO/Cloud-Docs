@@ -1,1 +1,0 @@
-# EVM Compatible Chains
