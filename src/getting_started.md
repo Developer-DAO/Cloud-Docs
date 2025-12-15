@@ -14,11 +14,11 @@ Before you begin, make sure you have:
 
 ## Step 1: Get Your API Key {#get-api-key}
 
-If you already created an API key, you should find it [here](https://cloud.developerdao.com/dashboard/api-keys). Otherwise, proceed to the sub-section below.
+If you already created an API key, you should find it [here](https://api.cloud.developerdao.com/dashboard/api-keys). Otherwise, proceed to the sub-section below.
 
 ### Create Your API Key {#create-api-key}
 
-1. Sign in to your [D_D Cloud Account](https://cloud.developerdao.com/login)
+1. Sign in to your [D_D Cloud Account](https://api.cloud.developerdao.com/login)
 2. Navigate to **Manage API Keys** in the center of the dashboard page
 3. Click **Generate New Key** 
 4. Copy and securely store your API key
@@ -67,7 +67,7 @@ import { ethers } from "ethers";
 
 async function main() {
   const provider = new ethers.JsonRpcProvider(
-    `https://cloud.developerdao.com/rpc/ethereum/YOUR_API_KEY_GOES_HERE`
+    `https://api.cloud.developerdao.com/rpc/ethereum/YOUR_API_KEY_GOES_HERE`
   );
 
   try {
@@ -98,7 +98,7 @@ from datetime import datetime
 
 def main():
     # Initialize Web3 with D_D Cloud RPC endpoint
-    provider_url = "https://cloud.developerdao.com/rpc/ethereum/YOUR_API_KEY_GOES_HERE"
+    provider_url = "https://api.cloud.developerdao.com/rpc/ethereum/YOUR_API_KEY_GOES_HERE"
     web3 = Web3(Web3.HTTPProvider(provider_url))
     
     try:
@@ -133,7 +133,7 @@ use alloy::{
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let provider = ProviderBuilder::new()
-        .on_http("https://cloud.developerdao.com/rpc/ethereum/YOUR_API_KEY_GOES_HERE"
+        .on_http("https://api.cloud.developerdao.com/rpc/eth/YOUR_API_KEY_GOES_HERE"
             .parse()?);
     
     match provider.get_block(BlockId::finalized()).await {
@@ -164,7 +164,7 @@ curl -X POST \
     "params": ["finalized", true],
     "id": 1
   }' \
-  https://cloud.developerdao.com/rpc/ethereum/YOUR_API_KEY_GOES_HERE
+  https://api.cloud.developerdao.com/rpc/eth/YOUR_API_KEY_GOES_HERE
 ```
 {{#endtab}}
 {{#endtabs}}

@@ -14,14 +14,14 @@ Sends a JSON-RPC call to the CHAIN_ID.
 
 
 ```
-https://cloud.developerdao.com/rpc/{CHAIN_ID}/{API_KEY}
+https://api.cloud.developerdao.com/rpc/{CHAIN_ID}/{API_KEY}
 ```
 
 ## Websockets
 Initiates a websocket connection to CHAIN_ID
 
 ```
-https://cloud.developerdao.com/ws/{CHAIN_ID}/{API_KEY}
+wss://api.cloud.developerdao.com/ws/{CHAIN_ID}/{API_KEY}
 ```
 
 ### Parameters 
@@ -38,54 +38,22 @@ There are two parameters required on each path of the RPC service: a chain id an
 
 | ID |  
 | :----: |
-| arb-one |
-| avax |
-| avax-dfk |
+| eth  |
 | base |
-| base-sepolia-testnet |
-| bera |
-| blast |
-| bsc |
-| boba |
-| celo |
-| eth |
-| eth-holesky-testnet |
-| eth-sepolia-testnet |
-| evmos |
-| fraxtal |
-| fuse |
-| gnosis |
-| harmony |
-| iotex |
-| kaia |
-| kava |
-| metis |
-| moonbeam |
-| moonriver |
-| near |
-| oasys |
-| opbnb |
-| op |
-| op-sepolia-testnet |
-| osmosis |
-| pocket |
-| pocket-beta |
-| poly |
-| poly-amoy-testnet |
-| poly-zkevm |
-| radix |
-| scroll |
+| arb-one |
 | solana |
 | sui |
-| taiko |
-| taiko-hekla-testnet |
-| zklink-nova |
-| zksync-era |
-| xrplevm-testnet |
-| ink |
-| sei |
-| tron |
-| sonic |
-| linea |
-| xrplevm |
-| mantle |
+| bsc|
+| poly |
+| op |
+
+
+  <!---->
+  <!-- - base -->
+  <!-- - eth -->
+  <!-- - arb-one -->
+  <!-- - solana -->
+  <!-- - sui -->
+  <!-- - bsc -->
+  <!-- - poly -->
+  <!-- - op -->
