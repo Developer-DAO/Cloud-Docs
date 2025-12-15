@@ -36,16 +36,16 @@ There are two parameters required on each path of the RPC service: a chain id an
 
 ### Supported Chain IDS 
 
-| ID |  
-| :----: |
-| eth  |
-| base |
-| arb-one |
-| solana |
-| sui |
-| bsc|
-| poly |
-| op |
+| ID | WS Support |
+| :----: | :-----: |
+| eth  | false |
+| base | true |
+| arb-one | false |
+| solana | false |
+| sui | false | 
+| bsc| true |
+| poly | false | 
+| op | false |
 
 
   <!---->
