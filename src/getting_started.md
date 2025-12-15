@@ -67,7 +67,7 @@ import { ethers } from "ethers";
 
 async function main() {
   const provider = new ethers.JsonRpcProvider(
-    `https://api.cloud.developerdao.com/rpc/ethereum/YOUR_API_KEY_GOES_HERE`
+    `https://api.cloud.developerdao.com/rpc/eth/YOUR_API_KEY_GOES_HERE`
   );
 
   try {
@@ -98,7 +98,7 @@ from datetime import datetime
 
 def main():
     # Initialize Web3 with D_D Cloud RPC endpoint
-    provider_url = "https://api.cloud.developerdao.com/rpc/ethereum/YOUR_API_KEY_GOES_HERE"
+    provider_url = "https://api.cloud.developerdao.com/rpc/eth/YOUR_API_KEY_GOES_HERE"
     web3 = Web3(Web3.HTTPProvider(provider_url))
     
     try:
