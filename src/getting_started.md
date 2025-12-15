@@ -14,11 +14,11 @@ Before you begin, make sure you have:
 
 ## Step 1: Get Your API Key {#get-api-key}
 
-If you already created an API key, you should find it [here](https://api.cloud.developerdao.com/dashboard/api-keys). Otherwise, proceed to the sub-section below.
+If you already created an API key, you should find it [here](https://cloud.developerdao.com/dashboard/api-keys). Otherwise, proceed to the sub-section below.
 
 ### Create Your API Key {#create-api-key}
 
-1. Sign in to your [D_D Cloud Account](https://api.cloud.developerdao.com/login)
+1. Sign in to your [D_D Cloud Account](https://cloud.developerdao.com/login)
 2. Navigate to **Manage API Keys** in the center of the dashboard page
 3. Click **Generate New Key** 
 4. Copy and securely store your API key
