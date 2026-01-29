@@ -1,114 +1,124 @@
-# Get Started with D_D Cloud RPC
+# Getting Started
 
-Welcome to D_D Cloud RPC! This guide will get you up and running in under 5 minutes. Follow along to make your first blockchain request and start building amazing dApps.
+Welcome! This guide will get you up and running with the D_D Cloud RPC in under
+five minutes.
 
-# Making Your First Request
+Follow along to make your first RPC request and start building
+amazing DApps.
 
-## Prerequisites {#prerequisites}
+## Prerequisites
 
 Before you begin, make sure you have:
 
-- A [D_D Cloud account](https://cloud.developerdao.com/login) (free signup)
-- Basic knowledge of your preferred programming language
-- Internet connection for API requests
+* A D_D Cloud account ([sign up is free!](https://cloud.developerdao.com/register))
+* Basic knowledge of a programming language like JavaScript, TypeScript, Python,
+  Rust, or Bash Script.
+* Internet connection for API requests.
 
-## Step 1: Get Your API Key {#get-api-key}
+## Getting an API key
 
-If you already created an API key, you should find it [here](https://cloud.developerdao.com/dashboard/api-keys). Otherwise, proceed to the sub-section below.
+If you already created an API key, you can find it in
+[your D_D Cloud Dashboard](https://cloud.developerdao.com/dashboard/api-keys);
+otherwise, you must create a new one.
 
-### Create Your API Key {#create-api-key}
+1. Open
+   [your D_D Cloud Dashboard](https://cloud.developerdao.com/dashboard/api-keys).
+2. Click the **Generate New API Key** button. 
+3. Copy the new API key and store it in a secure location.
 
-1. Sign in to your [D_D Cloud Account](https://cloud.developerdao.com/login)
-2. Navigate to **Manage API Keys** in the center of the dashboard page
-3. Click **Generate New Key** 
-4. Copy and securely store your API key
+### Take The .env Pledge
 
-<div class="warning">
-  <p><strong>Caution</strong></p>
-     <a href="https://github.com/smartcontractkit/full-blockchain-solidity-course-js/discussions/5">Take the pledge by Patrick Collins</a>
-    <ul>   
-        <li> do not hardcode secrets into your code </li>
-        <li> do not store secrets in plaintext </li>
-    </ul>
-  </div>
+[The .env Pledge](https://github.com/smartcontractkit/full-blockchain-solidity-course-js/discussions/5)
+outlines best practices for handling crypto keys. Taking it is a fun way to
+remind yourself about safe key management.
 
-## Step 2: Install Dependencies {#install-dependencies}
+## Installing Dependencies
 
-Choose your preferred language and install the required packages:
+Choose your preferred language and install the required packages.
 
-{{#tabs}}
-{{#tab name="Javascript"}}
+{{#tabs global="languages" }}
+
+{{#tab name="JavaScript" }}
 ```bash
 npm install ethers
 ```
-{{#endtab}}
+{{#endtab }}
 
-{{#tab name="Python"}}
+{{#tab name="Python" }}
 ```bash
 pip install web3
 ```
-{{#endtab}}
+{{#endtab }}
 
-{{#tab name="Rust"}}
+{{#tab name="Rust" }}
 ```bash
 cargo add alloy tokio --features alloy/full,tokio/full
 ```
-{{#endtab}}
-{{#endtabs}}
+{{#endtab }}
 
-## Step 3: Make Your First Request {#make-first-request}
+{{#endtabs }}
 
-Now let's fetch the latest finalized block from Ethereum. Replace `YOUR_API_KEY_GOES_HERE` with your actual API key:
+## Sending the first request
 
-{{#tabs}}
-{{#tab name="Javascript"}}
+Now that you set everything up, let's fetch the latest finalized block from
+Ethereum. 
+
+Replace `YOUR_API_KEY` with your actual API key.
+
+
+{{#tabs global="languages" }}
+
+{{#tab name="JavaScript" }}
 ```javascript
-import { ethers } from "ethers";
+import { ethers } from "ethers"
 
 async function main() {
-  const provider = new ethers.JsonRpcProvider(
-    `https://api.cloud.developerdao.com/rpc/eth/YOUR_API_KEY_GOES_HERE`
-  );
+  const rpcClient = new ethers.JsonRpcProvider(
+    "https://api.cloud.developerdao.com/rpc/eth/YOUR_API_KEY"
+  )
 
   try {
     // Get the most recent finalized block
-    const block = await provider.getBlock("finalized");
-    
+    const block = await rpcClient.getBlock("finalized")
+
+
     // Log the block details
     console.log("✅ Most recent, finalized block:", {
       number: block.number,
       hash: block.hash,
       timestamp: new Date(block.timestamp * 1000).toISOString(),
       transactions: block.transactions.length
-    });
+    })
   } catch (error) {
-    console.error("❌ Error fetching block:", error.message);
+    console.error("❌ Failed to fetch block:", error.message)
   }
 }
 
-main();
+main()
 ```
-{{#endtab}}
-{{#tab name="Python"}}
-### Python
+{{#endtab }}
 
+{{#tab name="Python" }}
 ```python
 from web3 import Web3
 from datetime import datetime
 
 def main():
-    # Initialize Web3 with D_D Cloud RPC endpoint
-    provider_url = "https://api.cloud.developerdao.com/rpc/eth/YOUR_API_KEY_GOES_HERE"
-    web3 = Web3(Web3.HTTPProvider(provider_url))
-    
+    rpcClient = Web3(Web3.HTTPProvider(
+        "https://api.cloud.developerdao.com/rpc/eth/YOUR_API_KEY"
+    ))
+
+
     try:
         # Check connection
-        if not web3.is_connected():
-            raise Exception("Failed to connect to D_D Cloud RPC")
-            
+        if not rpcClient.is_connected():
+            raise Exception("❌ Failed to connect to D_D Cloud RPC")
+
+
         # Get the most recent finalized block
-        block = web3.eth.get_block('finalized')
-        
+        block = rpcClient.eth.get_block('finalized')
+
+
         # Log the block details
         print("✅ Most recent, finalized block:", {
             "number": block.number,
@@ -117,13 +127,14 @@ def main():
             "transactions": len(block.transactions)
         })
     except Exception as error:
-        print(f"❌ Error fetching block: {error}")
+        print(f"❌ Failed to fetch block: {error}")
 
 if __name__ == "__main__":
     main()
 ```
-{{#endtab}}
-{{#tab name="Rust"}}
+{{#endtab }}
+
+{{#tab name="Rust" }}
 ```rust
 use alloy::{
     eips::BlockId,
@@ -132,10 +143,11 @@ use alloy::{
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let provider = ProviderBuilder::new()
-        .on_http("https://api.cloud.developerdao.com/rpc/eth/YOUR_API_KEY_GOES_HERE"
-            .parse()?);
-    
+    let provider = ProviderBuilder::new().on_http(
+        "https://api.cloud.developerdao.com/rpc/eth/YOUR_API_KEY".parse()?
+    );
+
+
     match provider.get_block(BlockId::finalized()).await {
         Ok(Some(block)) => {
             println!("✅ Most recent, finalized block:");
@@ -144,17 +156,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             println!("  Timestamp: {:?}", block.header.timestamp);
             println!("  Transactions: {}", block.transactions.len());
         }
-        Ok(None) => println!("❌ Block not found"),
-        Err(e) => println!("❌ Error fetching block: {}", e),
+        Ok(None) => println!("❌ Failed to fetch block: block not found"),
+        Err(e) => println!("❌ Failed to fetch block: {}", e),
     }
-    
+
+
     Ok(())
 }
 ```
-{{#endtab}}
-{{#tab name="Bash"}}
-### cURL
+{{#endtab }}
 
+
+{{#tab name="Curl" }}
 ```bash
 curl -X POST \
   -H "Content-Type: application/json" \
@@ -164,18 +177,18 @@ curl -X POST \
     "params": ["finalized", true],
     "id": 1
   }' \
-  https://api.cloud.developerdao.com/rpc/eth/YOUR_API_KEY_GOES_HERE
+  https://api.cloud.developerdao.com/rpc/eth/YOUR_API_KEY
 ```
-{{#endtab}}
-{{#endtabs}}
+{{#endtab }}
 
-## What's Next? {#whats-next}
+{{#endtabs }}
 
-- **Deploy Your First dApp**: Learn to build and deploy a complete decentralized application using D_D Cloud RPC. [Start Building →](../tutorials/first-dapp.md)
-- **Explore All Networks**: Discover 50+ supported blockchain networks including Ethereum, Polygon, Arbitrum, and more. [View Networks →](../networks/overview.md)
-- **Advanced Features**: WebSockets, batch requests, archive data, and performance optimization techniques. [Learn More →](../advanced/websockets.md)
-- **API Reference**: Complete documentation of all available RPC methods and parameters. [View Docs →](../api-reference/ethereum.md)
-- **Join Community**: Connect with other developers, get help, and share your projects with the D_D community. [Join Discord →](https://discord.gg/developerdao)
-- **Monitor Usage**: Track your API usage, set up alerts, and optimize your applications for better performance. [View Dashboard →](https://dashboard.ddcloud.io/analytics)
+## Next Steps
 
-</div>
+After getting your first connection up and running, check out what D_D Cloud has
+to offer.
+
+* Discover [supported networks](./supported_networks.md), including
+  Ethereum, Base, Solana, and more.
+* Check out [the API reference](./api_reference.md) of all available RPC methods
+  and parameters.
