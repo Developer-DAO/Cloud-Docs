@@ -42,5 +42,5 @@ You can find a list of supported RPC `CHAIN_ID` values
 ### Example
 
 ```
-wss://api.cloud.developerdao.com/ws/sol/abcdef123456
+wss://api.cloud.developerdao.com/ws/base/abcdef123456
 ```
