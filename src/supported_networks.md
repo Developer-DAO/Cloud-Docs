@@ -30,7 +30,7 @@ You can find all networks supported by D_D Cloud RPC in the following table.
     </tr>
     <tr>
       <td><a href="https://solana.com/">Solana</a></td>
-      <td><code>sol</code></td>
+      <td><code>solana</code></td>
       <td>✅</td>
       <td>❌</td>
     </tr>
@@ -48,7 +48,7 @@ You can find all networks supported by D_D Cloud RPC in the following table.
     </tr>
     <tr>
       <td><a href="https://polygon.technology/">Polygon</a></td>
-      <td><code>pol</code></td>
+      <td><code>poly</code></td>
       <td>✅</td>
       <td>❌</td>
     </tr>
