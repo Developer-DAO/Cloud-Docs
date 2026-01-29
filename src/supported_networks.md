@@ -4,10 +4,12 @@ You can find all networks supported by D_D Cloud RPC in the following table.
 
 <table>
   <thead>
-   <th>Name</th>
-   <th>Chain ID</th>
-   <th>HTTP Support</th>
-   <th>WebSocket Support</th>
+    <tr>
+      <th>Name</th>
+      <th>Chain ID</th>
+      <th>HTTP Support</th>
+      <th>WebSocket Support</th>
+    </tr>
   </thead>
   <tbody>
     <tr>
