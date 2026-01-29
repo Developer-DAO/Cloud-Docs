@@ -5,7 +5,7 @@ This reference contains the supported API endpoints for the D_D Cloud RPC.
 
 
 > [!NOTE]
-> The *Chain ID* in the context of D_D Cloud RPC refers to path of the RPC
+> The *Chain ID* in the context of D_D Cloud RPC refers to the path of the RPC
 > endpoint URL, not the ID defined by EIP-155.
 
 ## HTTP Endpoint
