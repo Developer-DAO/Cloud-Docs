@@ -47,7 +47,7 @@ dd-cloud <COMMAND> <FLAGS>
 
 ### Retrieving an API key
 
-This command copies an API endpoint URL with a specific API key it into your
+This command copies an API endpoint URL with a specific API key into your
 clipboard.
 
 ```bash
