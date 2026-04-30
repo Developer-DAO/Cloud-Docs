@@ -16,7 +16,7 @@ You can find all networks supported by D_D Cloud RPC in the following table.
       <td><a href="https://ethereum.org/">Ethereum</a></td>
       <td><code>eth</code></td>
       <td>✅</td>
-      <td>❌</td>
+      <td>✅</td>
     </tr>
     <tr>
       <td><a href="https://www.base.org/">Base</a></td>
@@ -28,7 +28,7 @@ You can find all networks supported by D_D Cloud RPC in the following table.
       <td><a href="https://arbitrum.io/">Arbitrum One</a></td>
       <td><code>arb-one</code></td>
       <td>✅</td>
-      <td>❌</td>
+      <td>✅</td>
     </tr>
     <tr>
       <td><a href="https://solana.com/">Solana</a></td>
@@ -52,13 +52,13 @@ You can find all networks supported by D_D Cloud RPC in the following table.
       <td><a href="https://polygon.technology/">Polygon</a></td>
       <td><code>poly</code></td>
       <td>✅</td>
-      <td>❌</td>
+      <td>✅</td>
     </tr>
     <tr>
       <td><a href="https://www.optimism.io/">Optimism</a></td>
       <td><code>op</code></td>
       <td>✅</td>
-      <td>❌</td>
+      <td>✅</td>
     </tr>
   </tbody>
 </table>
