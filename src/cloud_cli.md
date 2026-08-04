@@ -20,13 +20,13 @@ Choose your operating system and run the install command.
 ### Linux and MacOS
 
 ```bash
-curl --proto '=https' --tlsv1.2 -LsSf https://github.com/Developer-DAO/cloud-cli/releases/download/v0.1.0/dd-cloud-installer.sh | sh
+curl --proto '=https' --tlsv1.2 -LsSf https://github.com/Developer-DAO/cloud-cli/releases/download/v0.1.1/dd-cloud-installer.sh | sh
 ```
 
 ### Windows
 
 ```powershell
-powershell -ExecutionPolicy Bypass -c "irm https://github.com/Developer-DAO/cloud-cli/releases/download/v0.1.0/dd-cloud-installer.ps1 | iex"
+powershell -ExecutionPolicy Bypass -c "irm https://github.com/Developer-DAO/cloud-cli/releases/download/v0.1.1/dd-cloud-installer.ps1 | iex"
 ```
 
 ## Updating the Cloud CLI
